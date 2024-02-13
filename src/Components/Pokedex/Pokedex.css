@@ -1,0 +1,6 @@
+.pokemon-grid {
+    grid-template-columns: 2;
+    justify-items: center;
+    gap: 2;
+    width: 100%;
+}

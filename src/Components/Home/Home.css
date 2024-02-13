@@ -1,0 +1,130 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px;
+    
+    margin: 0 auto;
+    max-width: 1200px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    text-decoration: none;
+}
+
+
+.cardNavi {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 240px;
+    height: 70px;
+    border: 1px solid transparent;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding-left: 14px;
+    cursor: pointer;
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.2s ease-in;
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+        rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+ 
+}
+
+.text-lg {
+    text-decoration: none;
+
+  
+    color: #fff;
+}
+.text-lg:hover {
+    color: #000;
+    font-family: bolder;
+}
+
+.pokeball1 {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    width: 100px;
+    height: 100px;
+    background-color: #ff4d4d;
+    border-radius: 50%;
+    transform: rotate(45deg);
+    z-index: 0;
+    transition: all 0.2s ease-in;
+
+}
+
+.pokeball1::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    background-color: #fff;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+.cardNavi:hover {
+    background-color: #fff;
+    color: #000;
+    transform: scale(0.9);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+    rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+    border: 1px solid #ff93e4;
+}
+
+
+.cardNavi:nth-child(1) {
+    background-color: #ff4d4d;
+}
+
+.cardNavi:nth-child(2) .pokeball1 {
+    background-color:#98D8D8;
+}
+
+.cardNavi:nth-child(2)  {
+    background-color: #98D8D8;
+}
+
+.cardNavi:nth-child(3) {
+    background-color: #705898;
+}
+
+.cardNavi:nth-child(3) .pokeball1 {
+    background-color: #705898;
+}
+
+.cardNavi:nth-child(4) {
+    background-color: #78C850;
+}
+
+.cardNavi:nth-child(4) .pokeball1 {
+    background-color: #78C850;
+}
+
+.cardNavi:nth-child(5) {
+    background-color: #F8D030;
+}
+
+.cardNavi:nth-child(5) .pokeball1 {
+    background-color: #F8D030;
+}
+
+@media screen and (max-width: 768px) {
+    .cardNavi {
+       grid-template-columns: repeat(1, auto);
+       grid-template-rows: repeat(1, 1fr);
+    }
+
+    
+}

@@ -1,0 +1,22 @@
+.header-title h1 {
+    font-size: 2em;
+    margin: 0;
+    padding: 0;
+    color: #61dafb;
+}
+
+.logo2 {
+   height: 50px;
+    width: 50px;
+    animation: logo2-spin infinite 7s linear;
+}
+
+
+@keyframes logo2-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
