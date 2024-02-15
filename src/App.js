@@ -1,7 +1,6 @@
 import './App.css';
 import Nav from './Components/Navbar/Nav';
-import Header from './Components/Header/Header.jsx';
-import PokemonSearch from './Components/Pokedex/PokemonSearch';
+
 import PokeList from './Components/Pokedex/PokeList.js';
 import { About } from './pages/About/About.jsx';
 import Pokedex from './Components/Pokedex/Pokedex.js';
@@ -44,10 +43,11 @@ function App() {
         </>} />
         <Route path ="/account" element={<RegistrationForm />} />
         <Route path = "/pokedex" element={<PokeList />} />
-                     
+                  
         <Route path="/natures" element={<NatureCardList />} />
         <Route path="/teambuilder" element={<TeamBuilder />} />
         <Route path="/types" element={<Types />} /> 
+        <Route path='/pokemon/:id' element={<Pokedex />} />
         </Routes>
 
       </Router>

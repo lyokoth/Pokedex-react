@@ -9,11 +9,11 @@ Created entirely in React, the Pokedex allows you to look up information about y
 
 # Features
 
-- Pokedex 
+- Pokedex - People can search their favorite Pokemon using the search function. Currently there are 1000 Pokemon available.
 
-- Team Builder
+- Team Builder - Coming soon.
 
--
+- Featured Pokemon of the day - On the homepage, there will be a featured Pokemon of the day. A Pokemon is chosen at random using an API call. 
 
 
 
@@ -24,4 +24,9 @@ Created entirely in React, the Pokedex allows you to look up information about y
 -  HTML/CSS 
 
 
+# Other tech 
+
+- PokéAPI
+
 # Screenshots
+

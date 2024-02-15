@@ -1,23 +1,37 @@
-import React, {useState, useEffect } from 'react';
-import PokeList from './PokeList';
-import { fetchPokemonData, fetchPokemon } from '../Routing/api';
+// create a component that will show the indivdual pokemon when the card is clicked
 
-const Pokedex = () => {
-    const [clickedPokemon, setClickedPokemon] = useState(null);
+import React, {useState, useEffect, useContext } from 'react';
+import PokedexContext from '../../functions/Context';
+import SinglePokeCard from './Pokedex_Entries/SinglePokeCard';
 
-    const handlePokemonClick = async (pokemon) => {
-        setClickedPokemon(await fetchPokemonData(pokemon));
-    }
+const Pokedex =() => {
+    const [pokemon, setPokemon] = useState([]);
+    const { loading, setLoading } = useContext(PokedexContext);
+
+    useEffect(() => {
+        const fetchPokemon = async () => {
+            setLoading(true);
+            try {
+              
+                const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`);
+                const data = await res.json();
+                const speciesData= await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemon}`);
+                const species = await speciesData.json();
+
+                setPokemon({...data, ...species});
+                console.log(data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchPokemon();
+    }, [pokemon, setLoading]);
 
     return (
-        <div>
-            <PokeList onSelectPokemon={handlePokemonClick} />
-            {clickedPokemon && (
-                <div>
-                    <h1>{clickedPokemon.name}</h1>
-                    <img src={clickedPokemon.sprites.front_default} alt={clickedPokemon.name} />
-                </div>
-            )}
-        </div>
-    )
-};
+        <>
+            <SinglePokeCard pokemon={pokemon} loading={loading} />
+        </>
+    );
+}
+export default Pokedex;

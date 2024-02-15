@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import FeaturedPokemonCard from './FeaturedPokemonCard'; // Import FeaturedPokemonCard
-import PokedexContext from '../../functions/Context';
-
+import PokedexContext from '../../functions/Context'; 
 
 const FeaturedPokemon = () => {
     const { loading, setLoading } = useContext(PokedexContext);
@@ -12,7 +11,7 @@ const FeaturedPokemon = () => {
         const fetchRandomPokemon = async () => {
             setLoading(true);
             try {
-                const randomPokemonId = Math.floor(Math.random() * 1000) + 1;
+                const randomPokemonId = Math.floor(Math.random() * 1018) + 1;
                 const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${randomPokemonId}`);
                 const data = await response.json();
                 const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${randomPokemonId}`);
