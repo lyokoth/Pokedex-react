@@ -49,3 +49,4 @@ Created entirely in React, the Pokedex allows you to look up information about y
 - Edit homepage to add About section
 - Revamp natures section
 - Add moves, natures, and others to individual Pokemon
+- Add ability to filter Pokedex search by generation/games
