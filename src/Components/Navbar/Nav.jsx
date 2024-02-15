@@ -1,6 +1,6 @@
 import React from 'react';
 
-import logo from '../../assets/pokeball (1).jpg';
+import logo from '../../assets/pokeball-white.png';
 //import { HashLink } from 'react-router-hash-link';
 import { Link } from 'react-router-dom';
 // import { FaAngleDown } from 'react-icons/all-files/fa/FaAngleDown';

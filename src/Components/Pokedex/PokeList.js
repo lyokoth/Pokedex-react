@@ -26,7 +26,7 @@ const PokeList = () => {
 
   useEffect(() => {
     const fetchPokemon = async () => {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=1018`);
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=10101`);
       const data = await response.json();
       const pokemonData = await Promise.all(data.results.map(async (pokemon) => {
         const pokemonRecord = await fetch(pokemon.url);
