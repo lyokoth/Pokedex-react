@@ -38,6 +38,15 @@ Created entirely in React, the Pokedex allows you to look up information about y
 - ![](https://github.com/lyokoth/Pokedex-react/blob/master/src/assets/screenshots/search%20function.png)
 
 
-- Glaceon's Pokédex entry
+- Glaceon's Pokédex entry, also showcasing the Pokedex card.
 
 - ![](https://github.com/lyokoth/Pokedex-react/blob/master/src/assets/screenshots/localhost_3000_pokemon_471.png)
+
+
+## To dos
+
+- Finish Teambuilder/Account function
+- Edit homepage to add About section
+- Revamp natures section
+- Add moves, natures, and others to individual Pokemon
+- Add function to filter Pokédex search by generation/regioanal dex
