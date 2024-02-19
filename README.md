@@ -48,11 +48,14 @@ Created entirely in React, the Pokedex allows you to look up information about y
 - Finish Teambuilder/Account function
 - Edit homepage to add About section
 - Revamp natures section
+- Revamp Search section
+- Implement Dark Mode
 - Add moves, natures, and others to individual Pokemon
 - Add function to filter Pokédex search by generation/regioanal dex
 
 
 ## Finished 
 
-- Added Featured Pokémon to homepage
-- Fetched all Pokémon through the API and got their individual Pokédex entries.
+- Added Featured Pokémon to homepage ✅
+- Fetched all Pokémon through the API and got their individual Pokédex entries ✅
+
