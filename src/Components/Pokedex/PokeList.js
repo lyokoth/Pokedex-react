@@ -1,66 +1,64 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Grid, Flex, GridItem, Heading, Text, Input, IconButton, Spinner } from '@chakra-ui/react';
-import { SearchIcon } from '@chakra-ui/icons';
+import { Grid, Flex, GridItem,  Text, Spinner, } from '@chakra-ui/react';
 import { Colors } from '../../Components/Routing/api';
-import gridLogo from '../../assets/pokeball-white.png';
 import './PokeList.css';
 import pokeball from '../../assets/pokeball-black.jpg';
 import { useNavigate } from 'react-router-dom';
 import PokedexContext  from '../../functions/Context';
-import Generation from './GenerationFilter/Generation';
+import { fetchPokemon } from '../../Components/Routing/api';
+import ScrollToTop from 'react-scroll-to-top';
 // add sidebar for generation filter
 
-
 const PokeList = () => {
-  const [pokemon, setPokemon] = useState([]);
+  const [pokemon, setPokemon] = useState([]); 
   const [search, setSearch] = useState('');
   const [ selectedType, setSelectedType ] = useState('');
-  const [selectedPokemon, setSelectedPokemon] = useState(null);
-  const [selectedGeneration, setSelectedGeneration] = useState('');
+  const [selectedPokemon, setSelectedPokemon] = useState(false);
+
+ 
   const navigate = useNavigate();
 
   const {loading,
      setLoading,
+     allPokemon,
+     setAllPokemon,
         error,
         setError,
-        singlePokemon,
         setSinglePokemon,
-        setAbout,
-        setLocation,
     } = useContext(PokedexContext);
 
-  useEffect(() => {
-    const fetchPokemon = async () => {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=10101`);
-      const data = await response.json();
-      const pokemonData = await Promise.all(data.results.map(async (pokemon) => {
-        const pokemonRecord = await fetch(pokemon.url);
-        return pokemonRecord.json();
-      }));
-        data.results = pokemonData;
-      setPokemon(data.results);
+    useEffect(() => {
+      const fetchKantoPokemon = async () => {
+        setLoading(true);
+        try {
+          const data = await fetchPokemon(151, 0); // Fetch Kanto Pokemon
+          const promises = data.results.map(async (pokemon) => {
+            return await fetch(pokemon.url).then((res) => res.json());
+          });
+          const results = await Promise.all(promises);
+          setAllPokemon(results);
+        } catch (error) {
+          setError(true);
+        } finally {
+          setLoading(false);
+        }
+      };
+    
+      fetchKantoPokemon();
+    }, []); // Empty dependency array
+
+    if (loading) {
+      return <Spinner
+      thickness="4px"
+      speed="0.65s"
+      emptyColor="gray.200"
+      color="purple.500"
+      size="xl"
+      className="loadingSpinner"
+      />
     }
-    fetchPokemon();
-  }, []);
+
  
-
-  const filteredTypes = pokemon.filter((pokemon) => {
-    if (selectedType === "") {
-      return true;
-    } else {
-      return pokemon.types.some((type) => type.type.name === selectedType);
-    }
-  }).filter((pokemon) => {
-    if (search === "") {
-      return true;
-    } else {
-      return pokemon.name.toLowerCase().includes(search.toLowerCase());
-    }
-  });
-
-  
-
-
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
    
@@ -82,70 +80,54 @@ const PokeList = () => {
       setLoading(false);
     }
   };
+
+
+
   
   return (
-    <div>
-  
-     <Heading size="lg" textAlign="center" mt="20px">Pokédex</Heading>
-      <Flex justify="center" mt="20px">
-        <Input
-          placeholder="Search by Pokémon name, type, or id..."
-          value={search}
-          onChange={handleSearchChange}
-          width={{ base: '80%', md: '50%' }}
-        />
-        <IconButton
-          aria-label="Search database"
-          icon={<SearchIcon />}
-          onClick={handleSearchChange} // This should trigger the search action
-        />
-        <br />
-
-       
-    
-      </Flex>
-
-      <div className="pokedex-grid" style={{ textTransform: 'capitalize' }}>
-       
+    <div className="pokedex-container">
+      <div className="pokedex-grid cursor-pointer" style={{ textTransform: 'capitalize' }}> 
         <span className="pokeball" style={{ backgroundImage: `url(${pokeball})` }}></span>
-        
-        {pokemon.length  > 0 && (
-          <Grid templateColumns="repeat(3, 1fr)" gap={6} className="grid">
-            {pokemon
-              .filter((pokemon) => {
-                if (search === "") {
-                  return pokemon;
-                } else if (pokemon.name.toLowerCase().includes(search.toLowerCase())) {
-                  return pokemon;
-                }
-              })
+        {allPokemon.length  > 0 && (
+          <Grid templateColumns="repeat(4, 1fr)" gap={4} className="">
+            {allPokemon 
               .map((pokemon, index) => (
-                <GridItem key={index} 
+                <GridItem 
+                key={index} 
                 backgroundColor={Colors[pokemon.types[0].type.name]}
                 borderRadius="10px" 
                 p="20px" 
-            
-                border="1px solid black" 
+                border="2px solid black"
+                className="grid grid-cols-2 justify-items-center gap-x-2 md:gap-x-4 md:gap-y-5 gap-y-2 md:w-11/12 w-full mx-auto pb-10 z-10"
                 onClick={() => handlePokemonClick(pokemon)}
                 style={{cursor: 'pointer'}}
-            
-                >
-                    <img src={gridLogo} alt="Pokemon Logo" />
-                  <Flex direction="column" align="center">
-                  
-                    <img src={pokemon.sprites.front_default} alt={pokemon.name} className='pkdexsprites' />
-                    <Heading size="lg" mt="10px" >{pokemon.name}</Heading>
-                    <span size="lg">#{pokemon.id}</span>
+                >          
+                    <h2 className="capitalize font-bold tracking-tighter md:text-lg text-sm text-white">{pokemon.name} 
+                    </h2>
+                    <h3>#{String(`${pokemon.id}`).padStart(3, "0")}</h3>
+                    <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`} alt={pokemon.name} className='pkdexsprites' />
+                   <Flex align="center" justify="center" className="type-container">
+                   <figcaption className='flex flex-col  justify-center items-center w-1/2'>
                     {pokemon.types && pokemon.types.map((type, i) => (
-                      <Text key={i} backgroundColor={Colors[type.type.name]} borderRadius={5} p={1} mt={2} border="2px solid black" textAlign="center" flexDirection={'row' }
+                      <Text key={i} 
+                      backgroundColor={Colors[type.type.name]}
+                       borderRadius={5} 
+                       textAlign="center" 
+                        padding="5px"
+                        border='1px solid black'
+                  
+                       className='my-1 rounded-full md:text-base text-xs typeName'
+                  peName
                       >{type.type.name}</Text>
                     ))}
-                  </Flex>
+                    </figcaption>
+                </Flex>
                 </GridItem>
               ))}
           </Grid>
         )}
       </div>
+      <ScrollToTop smooth color="#f5f5f5" />
     </div>
   );
 }
