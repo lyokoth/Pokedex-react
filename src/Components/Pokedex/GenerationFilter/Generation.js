@@ -10,6 +10,7 @@ import GenV from '../../../assets/Generation_V.jpg';
 import GenVI from '../../../assets/GenVI.png';
 import GenVII from '../../../assets/GenVII.jpg';
 import GenVIII from '../../../assets/GenVIII.jpg';
+import GenIX from '../../../assets/GenIX.png';
 import { fetchPokemon } from '../../Routing/api';
 
 import GenCard from './GenCard';
@@ -72,6 +73,13 @@ const Generation = ({ searchGeneration, setSearchGeneration }) => {
             offset: 809,
             img: `${GenVIII}`,
         },
+        {
+            name: "Paldea",
+            limit: 100,
+            offset: 905,
+            img: `${GenIX}`,
+            generation: "IX",
+        }
     
 
 
@@ -85,9 +93,9 @@ const Generation = ({ searchGeneration, setSearchGeneration }) => {
                     : " generationContainer"
             }`}
         >
-     <Box className='generationSection'>
+     <Box className='generationSection' overflowY='auto' h='500px'>
                 <Heading>Generation</Heading>
-                <Flex className='grid xl:grid-cols-5 md:grid-cols-4 grid-cols-2 justify-items-center gap-x-3 md:gap-x-4 md:gap-y-5 gap-y-3 md:w-11/12 w-full mx-auto pb-4 overflow-y-scroll h-full'>
+                <Flex className='grid xl:grid-cols-4 md:grid-cols-4 grid-cols-2 justify-items-center gap-x-3 md:gap-x-4 md:gap-y-5 gap-y-3 md:w-11/12 w-full mx-auto pb-4 overflow-y-scroll h-full'>
                     {Regions.map((generation) => (
                         <GenCard
                             key={generation.name}
