@@ -1,81 +1,108 @@
-import React from 'react'
+import React, {useState, useEffect } from 'react';
+import { Box, Flex, Heading } from '@chakra-ui/react';
+import './Generation.css';
+
+import GenI from '../../../assets/GenI.jpg';
+import GenII from '../../../assets/GenII.jpg';
+import GenIII from '../../../assets/GenIII.jpg';
+import GenIV from '../../../assets/GenIV.jpg';
+import GenV from '../../../assets/Generation_V.jpg';
+import GenVI from '../../../assets/GenVI.png';
+import GenVII from '../../../assets/GenVII.jpg';
+import GenVIII from '../../../assets/GenVIII.jpg';
+import { fetchPokemon } from '../../Routing/api';
+
 import GenCard from './GenCard';
-const Generation = ({ searchGeneration }) => {
-    const regions = [
-     {
-        name: "Kanto",
-        gen: 1,
-        url: "https://pokeapi.co/api/v2/generation/1/",
-        limit: 151,
-        offset: 0,
-     },
+
+const Generation = ({ searchGeneration, setSearchGeneration }) => {
+    const Regions = [
+        {
+            name: "Kanto",
+            generation: "I",
+            limit: 151,
+            offset: 0,
+            img: `${GenI}`,
+        },
         {
             name: "Johto",
-            gen: 2,
-            url: "https://pokeapi.co/api/v2/generation/2/",
+            generation: "II",
             limit: 100,
             offset: 151,
+            img: `${GenII}`,
         },
         {
             name: "Hoenn",
-            gen: 3,
-            url: "https://pokeapi.co/api/v2/generation/3/",
+            generation: "III",
             limit: 135,
             offset: 251,
+            img: `${GenIII}`,
         },
         {
             name: "Sinnoh",
-            gen: 4,
-            url: "https://pokeapi.co/api/v2/generation/4/",
-            limit: 107,
+            limit: 108,
+            generation: "IV",
             offset: 386,
+            img: `${GenIV}`,
         },
         {
             name: "Unova",
-            gen: 5,
-            url: "https://pokeapi.co/api/v2/generation/5/",
-            limit: 156,
-            offset: 493,
+            generation: "V",
+            limit: 155,
+            offset: 494,
+            img: `${GenV}`,
         },
         {
             name: "Kalos",
-            gen: 6,
-            url: "https://pokeapi.co/api/v2/generation/6/",
             limit: 72,
+            generation: "VI",
             offset: 649,
+            img: `${GenVI}`,
         },
         {
             name: "Alola",
-            gen: 7,
-            url: "https://pokeapi.co/api/v2/generation/7/",
             limit: 88,
+            generation: "VII",
             offset: 721,
+            img: `${GenVII}`,
         },
         {
             name: "Galar",
-            gen: 8,
-            url: "https://pokeapi.co/api/v2/generation/8/",
             limit: 89,
+            generation: "VIII",
             offset: 809,
+            img: `${GenVIII}`,
         },
-        {
-            name: "Paldea",
-            gen: 9,
-            url: "https://pokeapi.co/api/v2/generation/9/",
-            limit: 100,
-            offset: 898,
-        },
-    ];
+    
+
+
+];
+
     return (
-        <section className={searchGeneration ? "generation-menu active" : "generation-menu"}>
-
-        <div className="generation-menu">
-            {regions.map((region) => (
-                <GenCard key={region.name} gen={region.gen} limit={region.limit} offset={region.offset} />
-            ))}
-        </div>
+        <section
+            className={`${
+                searchGeneration
+                    ? "generationContainer active"
+                    : " generationContainer"
+            }`}
+        >
+     <Box className='generationSection'>
+                <Heading>Generation</Heading>
+                <Flex className='grid xl:grid-cols-5 md:grid-cols-4 grid-cols-2 justify-items-center gap-x-3 md:gap-x-4 md:gap-y-5 gap-y-3 md:w-11/12 w-full mx-auto pb-4 overflow-y-scroll h-full'>
+                    {Regions.map((generation) => (
+                        <GenCard
+                            key={generation.name}
+                            generation={generation.generation}
+                            image={generation.img}
+                            limit={generation.limit}
+                            offset={generation.offset}
+                            searchGeneration={searchGeneration}
+                        />
+                    ))}
+                </Flex>
+            </Box>
+         
         </section>
-    )
-}
-export default Generation;
+    );
+};
 
+export default Generation;
