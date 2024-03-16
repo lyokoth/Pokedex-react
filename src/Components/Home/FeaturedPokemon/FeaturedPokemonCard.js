@@ -2,12 +2,14 @@ import React from 'react';
 import './FeaturedPokemon.css';
 import { Colors, StatColors } from '../../../Components/Routing/api';
 import cardLogo from '../../../assets/icons8-pokeball-50.png';
-
+//import SweetAlert2 from 'react-sweetalert2';
 import { Card, CardHeader, CardBody, Heading, Flex, Stack, CardFooter, Text, Progress } from '@chakra-ui/react';
 import { Spinner, Center } from '@chakra-ui/react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 
 const FeaturedPokemonCard = ({ featuredPokemon, loading }) => {
+    
+
     if (loading) {
         return (
             <Center>
@@ -22,10 +24,13 @@ const FeaturedPokemonCard = ({ featuredPokemon, loading }) => {
     }
 
     if (!featuredPokemon) {
-        return <div>No featured Pokémon available.</div>;
+        return <div>
+            <h1>Could not fetch featured Pokémon</h1>
+            </div>;
     }
 
-    const { sprites, types, abilities, stats } = featuredPokemon;
+    const { sprites, types, abilities, stats, weight} = featuredPokemon;
+
     const color = Colors[types[0].type.name];
     
     const styleBg = {
@@ -43,8 +48,10 @@ const FeaturedPokemonCard = ({ featuredPokemon, loading }) => {
         <Card  className="card-featured">
           
             <CardHeader className="card-header">
+                <Flex justifyContent="space-between">
                 <img src={cardLogo} alt="pokeball" className="card-logo" />
-          
+                <img src={cardLogo} alt="pokeball" className="card-logo" />
+                </Flex>
                 <Center>
                     <Heading size="lg">Today's featured Pokémon:</Heading>
                 </Center>
@@ -109,6 +116,7 @@ const FeaturedPokemonCard = ({ featuredPokemon, loading }) => {
                         <Tab>Characteristics</Tab>
                         <Tab>IVs</Tab>
                         <Tab>Sprites</Tab>
+                        <Tab>Location</Tab>
                         <Tab>Evolution</Tab>
                     </TabList>
                 
@@ -137,8 +145,8 @@ const FeaturedPokemonCard = ({ featuredPokemon, loading }) => {
                            
                             <div className="pokemon-physical">
                                  <Stack direction="column">
-                              <Text>Height: {featuredPokemon.height / 10}m</Text>
-                             <Text>Weight: {featuredPokemon.weight / 10}kg</Text>
+                              <Text>Height: {`${feet}' ${(Number(inches) % 12, 2)}"`}</Text>
+                             <Text>Weight:    {Math.abs(weight / 4.536).toFixed(1)} lbs</Text>
                                 </Stack>
                             </div>
                                 </Stack>
@@ -159,10 +167,22 @@ const FeaturedPokemonCard = ({ featuredPokemon, loading }) => {
                                 </Stack>
                         </TabPanel>
                         <TabPanel>
-                            <Heading size="lg">Evolution:</Heading>
+                            <Heading size="lg">Location</Heading>
                             <Stack direction={{base: "column", md: "row"}} spacing={2}>
-                                
+                                <Stack direction="column">
+                                <Text>Location: </Text>
+                                <Text>Region: </Text>
 
+
+                                </Stack>
+                                </Stack>
+                        </TabPanel>
+                        <TabPanel>
+                            <Heading size="lg">Evolution</Heading>
+                            <Stack direction={{base: "column", md: "row"}} spacing={2}>
+                                <Stack direction="column">
+                                <Text>Evolution Chain:</Text>
+                                </Stack>
                                 </Stack>
                         </TabPanel>
 
@@ -171,7 +191,10 @@ const FeaturedPokemonCard = ({ featuredPokemon, loading }) => {
                         </CardBody>
                         </Tabs>
                 </div>
-          
+                <Flex justifyContent="space-between">
+                <img src={cardLogo} alt="pokeball" className="card-logo" />
+                <img src={cardLogo} alt="pokeball" className="card-logo" />
+                </Flex>
            
         </Card>
     </section>
