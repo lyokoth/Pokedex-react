@@ -1,13 +1,14 @@
-import axios from 'axios';
+// import axios from 'axios';
 
-const apiUrl ='https://pokeapi.co/api/v2/pokemon';
+const apiUrl ="https://pokeapi.co/api/v2/pokemon/";
 
 
-export const fetchPokemonData = async (pokemon, setPokemonData) => {
+export const fetchPokemonData = async (pokemon) => {
     try {
         const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}`;
-        const res = await axios.get(url);
-        setPokemonData(res.data);
+        const res = await fetch(url);
+        const data = await res.data;
+        return data;
     } catch (e) {
         console.log(e);
     }
@@ -16,6 +17,16 @@ export const fetchPokemonData = async (pokemon, setPokemonData) => {
 export const fetchPokemon = async (limit = 24, offset = 0) => {
     try {
         let url = `${apiUrl}?limit=${limit}&offset=${offset}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        return data;
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+export const getData = async (url) => {
+    try {
         const res = await fetch(url);
         const data = await res.json();
         return data;
@@ -35,6 +46,34 @@ export const fetchPokemonSpecies = async (pokemon) => {
     }
 }
 
+
+export const fetchPokemonLocation = async (pokemon) => {
+    try {
+        const res = await fetch(`${apiUrl}/${pokemon}/encounters`);
+        const data = await res.json();
+        return data;
+    } catch(error) {
+        console.log(error);
+    }
+}
+
+
+export const fetchPokemonEvolution = async (pokemon) => {
+    try {
+        const res = await fetch(`https://pokeapi.co/api/v2/evolution-chain/${pokemon}`);
+        const data = await res.json();
+        return data;
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+const fetchPokemonType = async (type) => {
+    const res = await fetch(`https://pokeapi.co/api/v2/type/${type}`);
+    const data = await res.json();
+    console.log(data);
+};
 
 
 export const Colors = {
@@ -71,16 +110,25 @@ export const StatColors = {
 
 }
 
-
-export const fetchPokemonLocation = async (pokemon) => {
-    try {
-        const res = await fetch(`${apiUrl}/${pokemon}/encounters`);
-        const data = await res.json();
-        return data;
-    } catch(error) {
-        console.log(error);
-    }
+export const EggGroupColors = {
+    monster: '#A8A878',
+    water1: '#6890F0',
+    bug: '#A8B820',
+    flying: '#A890F0',
+    field: '#A8A878',
+    fairy: '#EE99AC',
+    grass: '#78C850',
+    humanlike: '#A8A878',
+    water3: '#6890F0',
+    mineral: '#B8A038',
+    amorphous: '#A040A0',
+    water2: '#6890F0',
+    ditto: '#A8A878',
+    dragon: '#7038F8',
+    noEggs: '#A8A878',
 }
+
+
 
 
 // import React from 'react';
