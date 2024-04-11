@@ -35,9 +35,10 @@ export const getData = async (url) => {
     }
 };
 
-export const fetchPokemonSpecies = async (pokemon) => {
+
+export const fetchPokemonSpecies = async (id) => {
     try {
-        const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemon}`);
+        const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}`);
         const speciesData = await speciesResponse.json();
         return speciesData;
     } catch (error) {
@@ -57,24 +58,42 @@ export const fetchPokemonLocation = async (pokemon) => {
     }
 }
 
+// find by ID
 
-export const fetchPokemonEvolution = async (pokemon) => {
+export const fetchPokemonEvolution = async (id) => {
     try {
-        const res = await fetch(`https://pokeapi.co/api/v2/evolution-chain/${pokemon}`);
+        const res = await fetch(`https://pokeapi.co/api/v2/evolution-chain/${id}`);
+        
+        if (!res.ok) {
+            throw new Error('Failed to fetch evolution data');
+        }
+        
         const data = await res.json();
         return data;
+    } catch (error) {
+        throw new Error(`Error fetching evolution data: ${error.message}`);
     }
-    catch (error) {
-        console.log(error);
-    }
-}
+};
 
-const fetchPokemonType = async (type) => {
+export const fetchPokemonType = async (type) => {
     const res = await fetch(`https://pokeapi.co/api/v2/type/${type}`);
     const data = await res.json();
     console.log(data);
 };
 
+
+
+
+export const fetchPokemonAbility = async (ability) => {
+    try {
+    const res = await  fetch(`https://pokeapi.co/api/v2/ability/${ability}`);
+    const data = await res.json();
+    return data;
+    } catch (error) {
+        throw new Error(`Error fetching ability data: ${error.message}`);
+    }
+
+};
 
 export const Colors = {
    normal: '#A0AEC0',
