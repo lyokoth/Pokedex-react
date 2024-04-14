@@ -1,25 +1,52 @@
-import React from 'react';
+import React, { useEffect, useState} from 'react';
 import './FeaturedPokemon.css';
-import { Colors, StatColors } from '../../../Components/Routing/api';
+import { Colors, StatColors, EggGroupColors } from '../../../Components/Routing/api';
 import cardLogo from '../../../assets/icons8-pokeball-50.png';
-//import SweetAlert2 from 'react-sweetalert2';
-import { Card, CardHeader, CardBody, Heading, Flex, Stack, CardFooter, Text, Progress } from '@chakra-ui/react';
+import Swal from 'sweetalert2';
+import { Card, CardHeader, Button, CardBody, Heading, Flex, Stack, CardFooter, Text, Progress } from '@chakra-ui/react';
 import { Spinner, Center } from '@chakra-ui/react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 
+import axios from 'axios';
+
+
 const FeaturedPokemonCard = ({ featuredPokemon, loading }) => {
     
+const [abilityDescriptions, setAbilityDescriptions] = useState([]);
+
+useEffect(() => {
+    const fetchAbility = async () => {
+        if (featuredPokemon) {
+            try {
+                const descriptions = await Promise.all(featuredPokemon.abilities.map(async (ability) => {
+               
+                    const response = await axios.get(ability.ability.url);
+                    return response.data.flavor_text_entries[0].flavor_text;
+                   
+                }));
+
+                setAbilityDescriptions(descriptions);
+            } catch (error) {
+                console.error('Error fetching ability descriptions:', error);
+            }
+        }
+    };
+
+    fetchAbility();
+}, [featuredPokemon]);
+
+
 
     if (loading) {
         return (
-            <Center>
+       
                 <Spinner
                     color='purple.500'
                     speed="0.65s"
                     emptyColor='gray.200'
-                    size='2xl'
+                    size='xl'
                 />
-            </Center>
+ 
         );
     }
 
@@ -29,7 +56,9 @@ const FeaturedPokemonCard = ({ featuredPokemon, loading }) => {
             </div>;
     }
 
-    const { sprites, types, abilities, stats, weight} = featuredPokemon;
+  
+
+    const { sprites, types, abilities, stats, weight, effect_entries } = featuredPokemon;
 
     const color = Colors[types[0].type.name];
     
@@ -39,7 +68,17 @@ const FeaturedPokemonCard = ({ featuredPokemon, loading }) => {
 
     const inches = (featuredPokemon.height * 3.93701).toFixed(0);
     const feet = Math.floor(Number(inches) / 12); 
-
+    // for fetching ability from the id
+    
+    const handleAbilityClick = (ability) => {
+        Swal.fire({
+            title: 'Ability',
+            text: abilityDescriptions, 
+            icon: 'info',
+            confirmButtonText: 'Close',
+            confirmButtonColor: 'Colors[types[0].type.name]',
+        });
+    };
 
 
 
@@ -60,6 +99,7 @@ const FeaturedPokemonCard = ({ featuredPokemon, loading }) => {
                     <h2 className="featured-name">{featuredPokemon.name}</h2>
 
                     <h3 className="featured-id">#{String(`${featuredPokemon.id}`).padStart(3, 0)}</h3>
+                    <h4> {featuredPokemon.genera.find((genus) => genus.language.name === 'en').genus}</h4>
                 </div>
                 
             </CardHeader>
@@ -68,8 +108,10 @@ const FeaturedPokemonCard = ({ featuredPokemon, loading }) => {
                 <div className="pokemon-info">
                 <Flex align="center">
                 <div className="pokemon-sprites">
-                    <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${featuredPokemon.id}.png`} alt={featuredPokemon.name} />
-                   
+                    <a href={`/pokemon/${featuredPokemon.id}`}>
+                    <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${featuredPokemon.id}.png`} alt={featuredPokemon.name}
+                    />
+                   </a>
                 </div>
                 <div className="pokemon-attributes">
                   
@@ -81,15 +123,34 @@ const FeaturedPokemonCard = ({ featuredPokemon, loading }) => {
                             </div>
                         ))}
                     </Stack>
+                    <Stack direction="row">
                     <div className="item-ability-stats">
                         <ul className="pokemon-abilities">
                             <h3>Abilities:</h3>
                             {abilities.map((ability, i) => (
-                                <li key={i}>{ability.ability.name}</li>
+                                <li key={i}>
+                                    <Button className="ability-button" onClick={(handleAbilityClick)} style={{ backgroundColor: Colors[types[0].type.name] }}>
+                                    {ability.ability.name}  
+                                </Button>
+                               
+                                {ability.is_hidden ? <span>(Hidden)</span> : null}
+                             
+                                </li> 
                             ))}
-
                         </ul>
+                      
                     </div>
+                    </Stack>
+                    <Stack direction="row">
+                        <h4>Height:</h4>
+                        <Text>{`${feet}' ${(Number(inches) % 12, 2)}"`}</Text>
+                    </Stack>
+                    <Stack direction="row">
+                        <h4>Weight:</h4>
+                        <Text>{Math.abs(weight / 4.536).toFixed(1)} lbs</Text>
+                    </Stack>
+
+
                   
               
          
@@ -112,51 +173,69 @@ const FeaturedPokemonCard = ({ featuredPokemon, loading }) => {
             <div className="pokemon-stats stats">
                 <Tabs>
                     <TabList className='tab-list'>
+                       
                         <Tab>Base Stats</Tab>
                         <Tab>Characteristics</Tab>
-                        <Tab>IVs</Tab>
                         <Tab>Sprites</Tab>
                         <Tab>Location</Tab>
                         <Tab>Evolution</Tab>
+                        
                     </TabList>
                 
                         <CardBody>
                            <TabPanels>
+                            
                             <TabPanel>
+
                                 
                         <Heading size="lg">Base Stats:</Heading>
-                        <Stack direction={{base: "row", md: "row"}} spacing={6}>
+                        <Stack direction={{base: "column", md: "column"}} spacing={6}>
+                       
                         {stats.map((stat, i) => (
-                            <div key={i} className="stat-bar">
-                                <Text>{stat.stat.name}:</Text>
-                                <Text>{stat.base_stat}</Text>
-                                <Progress 
-                                flex="1" 
-                                width={`${stat.base_stat}px`}
-                                backgroundColor={StatColors[stat.stat.name]} />
-                            </div>
-                        
-                        ))}
-                        </Stack>
+                         <div key={i} className="stat-bar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <Text style={{ marginRight: '10px' }}>{stat.stat.name}: {stat.base_stat}</Text>
+                       
+                         <Progress 
+                               
+                                hasStripe value={stat.base_stat}
+                                isAnimated="true"
+                               flex="1" 
+                                minWidth="100px"
+                                size="md"
+                            
+                                backgroundColor={StatColors[stat.stat.name]} 
+                                   />
+                                 
+                                      </div>
+                                             ))}
+                        <Text>BST: {stats.reduce((acc, stat) => acc + stat.base_stat, 0)}</Text>
+                                        </Stack>
                         </TabPanel>
                         <TabPanel>
-                            <Heading size="lg">Characteristics:</Heading>
+                       
                             <Stack direction={{base: "column", md: "row"}} spacing={2}>
                            
                             <div className="pokemon-physical">
-                                 <Stack direction="column">
-                              <Text>Height: {`${feet}' ${(Number(inches) % 12, 2)}"`}</Text>
-                             <Text>Weight:    {Math.abs(weight / 4.536).toFixed(1)} lbs</Text>
+                                <Heading size ='md'>Training:</Heading>
+                                 <Stack direction="row">
+                                <Text>Capture Rate: {featuredPokemon.capture_rate}</Text>
+                                <Text size="sm">({((featuredPokemon.capture_rate / 255) * 100).toFixed(1)} %)</Text>
+                               
+
                                 </Stack>
                             </div>
                                 </Stack>
+                                <Stack direction="row">
+            
+                                <Text>Egg Groups: </Text>
+                                <div className='eggGroup' style={{backgroundColor: EggGroupColors[featuredPokemon.egg_groups[0].name]}}>
+                              {featuredPokemon.egg_groups[0].name}
+                            </div>
+                            </Stack>
+                          
 
                         </TabPanel>
-                        <TabPanel>
-                            <Heading size="lg">IVs:</Heading>
-                            <Stack direction={{base: "column", md: "row"}} spacing={2}>
-                                </Stack>
-                        </TabPanel>
+                    
                         <TabPanel>
                             <Heading size="lg">Sprites:</Heading>
                             <Stack direction={{base: "column", md: "row"}} spacing={2}>
@@ -164,6 +243,7 @@ const FeaturedPokemonCard = ({ featuredPokemon, loading }) => {
                                 <img src={sprites.back_default} alt={featuredPokemon.name}  />
                                 <img src={sprites.front_shiny} alt={featuredPokemon.name} />
                                 <img src={sprites.back_shiny} alt={featuredPokemon.name} />
+                                
                                 </Stack>
                         </TabPanel>
                         <TabPanel>
@@ -182,6 +262,7 @@ const FeaturedPokemonCard = ({ featuredPokemon, loading }) => {
                             <Stack direction={{base: "column", md: "row"}} spacing={2}>
                                 <Stack direction="column">
                                 <Text>Evolution Chain:</Text>
+                                
                                 </Stack>
                                 </Stack>
                         </TabPanel>
