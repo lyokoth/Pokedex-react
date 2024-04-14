@@ -43,6 +43,10 @@ Created entirely in React, the Pokedex allows you to look up information about y
 - ![](https://github.com/lyokoth/Pokedex-react/blob/master/src/assets/screenshots/localhost_3000_pokemon_471.png)
 
 
+- Plusle as the FPOTD, using Swal (sweet alert) to showcase its ability Plus. 
+
+-![](https://github.com/lyokoth/Pokedex-react/blob/master/src/assets/screenshots/image.png)
+
 ## To dos
 
 - Finish Teambuilder/Account function
@@ -59,4 +63,6 @@ Created entirely in React, the Pokedex allows you to look up information about y
 - Fetched all Pokémon through the API and got their individual Pokédex entries ✅
 - Filtered Pokedex search by Generations/Region Dex ✅
 - Implemented Dark Mode ✅
+- Added Moves and Ability descriptions to FPOTD and individual entries ✅
+
 
