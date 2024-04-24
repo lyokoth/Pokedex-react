@@ -7,15 +7,19 @@ export function About(){
 
     return (
         <Flex justify="center" align="center">
-        <section className="about">
+        <section className="#about">
     
               <div className="about-container">
                 
-                <Heading as = "h1" size="lg" ml="2" >About</Heading>
+                <Heading as = "h1" size="lg" ml="2" ><Image src={logo} alt='pokeball' className="pokeball"/>About</Heading>
+                <br />
+                <br />
               
 
-                <Text className="about-text">
-                    Welcome to the Pokédex! An app created to help trainers learn more about the Pokémon they love and to help them build their dream team!
+                <Text className="about-text" size="lg">
+                    Welcome to the Pokédex! An app created to help trainers learn more about the Pokémon they love and to help them build their dream team using the Teambuilder. 
+                    
+
                     <br />
 
                     </Text>

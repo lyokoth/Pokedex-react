@@ -8,6 +8,7 @@ import { Spinner, Center } from '@chakra-ui/react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 
 import axios from 'axios';
+import Biology from '../../Pokedex/Pokemon_Info/Biology/Biology';
 
 
 const FeaturedPokemonCard = ({ featuredPokemon, loading }) => {
@@ -58,7 +59,7 @@ useEffect(() => {
 
   
 
-    const { sprites, types, abilities, stats, weight, effect_entries } = featuredPokemon;
+    const { sprites, types, abilities, stats, weight, effect_entries, evolves_from_species, evolution_chain } = featuredPokemon;
 
     const color = Colors[types[0].type.name];
     
@@ -73,7 +74,7 @@ useEffect(() => {
     const handleAbilityClick = (ability) => {
         Swal.fire({
             title: 'Ability',
-            text: abilityDescriptions, 
+            text: abilityDescriptions[0], 
             icon: 'info',
             confirmButtonText: 'Close',
             confirmButtonColor: 'Colors[types[0].type.name]',
@@ -230,6 +231,7 @@ useEffect(() => {
                                 <Text>Egg Groups: </Text>
                                 <div className='eggGroup' style={{backgroundColor: EggGroupColors[featuredPokemon.egg_groups[0].name]}}>
                               {featuredPokemon.egg_groups[0].name}
+
                             </div>
                             </Stack>
                           
@@ -250,9 +252,7 @@ useEffect(() => {
                             <Heading size="lg">Location</Heading>
                             <Stack direction={{base: "column", md: "row"}} spacing={2}>
                                 <Stack direction="column">
-                                <Text>Location: </Text>
-                                <Text>Region: </Text>
-
+                                    {featuredPokemon.location_area_encounters}
 
                                 </Stack>
                                 </Stack>
@@ -262,7 +262,7 @@ useEffect(() => {
                             <Stack direction={{base: "column", md: "row"}} spacing={2}>
                                 <Stack direction="column">
                                 <Text>Evolution Chain:</Text>
-                                
+                                {featuredPokemon.evolution_chain.url}
                                 </Stack>
                                 </Stack>
                         </TabPanel>

@@ -1,37 +1,63 @@
-import React from 'react';
-import PokedexContext from '../../../functions/Context';
+// Purpose: This file contains the Generation Card component which is used to display the generation cards in the GenerationFilter component.
+import  PokedexContext  from '../../../functions/Context';
 import { useContext } from 'react';
-import {fetchPokemon, fetchPokemonData} from '../../../functions/api';
- 
-const  GenCard = ({gen, limit, offset}) => {
-  const {setPokemon, setLoading} = useContext(PokedexContext);
+import { fetchPokemon, getData } from '../../Routing/api';
+import { Box, Image, Grid, GridItem} from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
-  const getPokemonGen = async () => {
+
+// Generation Card component
+
+const GenCard = ({ region, generation, limit, offset, img}) => {
+  const { setAllPokemon, setLoading } = useContext(PokedexContext);
+
+  
+
+
+   
+  const getGeneration = async () => {
     setLoading(true);
-
     try {
-        const data = await fetchPokemon(limit, offset);
-        const pokemonData = await Promise.all(data.results.map(async (pokemon) => {
-            const pokemonRecord = await fetchPokemonData(pokemon.name);
-            return pokemonRecord;
-        }));
-        setPokemon(pokemonData);
-        } catch (error) {
-            console.error('Error fetching Pokémon data:', error);
-        }
-        setLoading(false);
+      const data = await fetchPokemon(limit, offset);
+      console.log(data)
+      const promises = data.results.map(async (pokemon) => {
+        return await getData(pokemon.url);
+      });
+      const results = await Promise.all(promises);
+      setAllPokemon(results);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
- const handleGenClick = () => {
-        getPokemonGen();
-    }
+  };
+
+
+  const handleGenClick = () => {
+    getGeneration();
+
+    
+  };
+
 
   return (
+    
+    <figure className='generationCard' onClick={handleGenClick}>
+    <figcaption className='md:text-base text-xs text-center font-medium'>
+        Generation {generation}
+    </figcaption>
+    <img
+        className='generationGroup w-11/12 mx-auto'
+        src={img}
+        alt='Pokemon Generation'
+        style={{width: '90%', height: '90%', }}
+    />
+</figure>
 
-    <figure className="gen-card" onClick={handleGenClick}>
-        <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${gen}.png`} alt={gen} />
-        <figcaption>{gen}</figcaption>
-    </figure>
-  )
-}
+);
+};
+
+
+
 
 export default GenCard;

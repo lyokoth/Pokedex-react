@@ -1,12 +1,15 @@
-import pokeLoader  from '../../assets/pokeLoad.gif';
-import './Loader.css';
+import { SpinnerIcon } from "@chakra-ui/icons";
+
+
 
 const Loader = () => {
     return (
-        <figure className="loader">
-            <img src={pokeLoader} alt="pokeLoader" className="pokeLoader"/>
-            <figcaption className="loading">Loading...</figcaption>
-        </figure>
+       <SpinnerIcon 
+         color='purple.500'
+            speed="0.65s"
+            emptyColor='gray.200'
+            size='xl'
+         />
 
     )
 }

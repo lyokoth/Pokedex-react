@@ -3,7 +3,7 @@ import { useContext, useState, useEffect } from "react";
 import PokedexContext from "../../../../functions/Context";
 import { Heading, Card, Button} from '@chakra-ui/react';
 
-const Location = ({ locationActive, setLocationActive}) => {
+const Location = ({ pokemon, locationActive, setLocationActive}) => {
     const [locations, setLocations] = useState([]);
     const { location, setLocation } = useContext(PokedexContext);
 

@@ -19,8 +19,13 @@ Created entirely in React, the Pokedex allows you to look up information about y
 
 # Tech Stack 
 
-- [React.js]
-- [MySQL] 
+- ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+
+- ![Chakra](https://img.shields.io/badge/chakra-%234ED1C5.svg?style=for-the-badge&logo=chakraui&logoColor=white)
+
+![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
+
+
 -  HTML/CSS 
 
 

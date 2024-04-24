@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Grid, Flex, GridItem,  Text, Spinner, } from '@chakra-ui/react';
+import { Grid, Flex, GridItem,  Text, Spinner, Button, Checkbox, Input } from '@chakra-ui/react';
 import { Colors } from '../../Components/Routing/api';
 import './PokeList.css';
 import pokeball from '../../assets/pokeball-black.jpg';
@@ -7,6 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import PokedexContext  from '../../functions/Context';
 import { fetchPokemon } from '../../Components/Routing/api';
 import ScrollToTop from 'react-scroll-to-top';
+//import SearchBar from './Search/SearchForm.js';
+import {Switch}  from '@chakra-ui/react';
 // add sidebar for generation filter
 
 const PokeList = () => {
@@ -14,6 +16,10 @@ const PokeList = () => {
   const [search, setSearch] = useState('');
   const [ selectedType, setSelectedType ] = useState('');
   const [selectedPokemon, setSelectedPokemon] = useState(false);
+  const [type, setType] = useState('');
+  const [filteredPokemon, setFilteredPokemon] = useState([]);
+  const [motion, setMotion] = useState(false);
+  const [view, setView] = useState('artwork');
 
  
   const navigate = useNavigate();
@@ -27,6 +33,7 @@ const PokeList = () => {
         setSinglePokemon,
     } = useContext(PokedexContext);
 
+    //  initial fetch
     useEffect(() => {
       const fetchKantoPokemon = async () => {
         setLoading(true);
@@ -46,7 +53,19 @@ const PokeList = () => {
     
       fetchKantoPokemon();
     }, []); // Empty dependency array
-
+   
+    useEffect(() => {
+      if (search === '') {
+          setFilteredPokemon(allPokemon);
+      } else {
+          const filtered = allPokemon.filter((pokemon) => {
+              // Filter logic here based on search term
+              return pokemon.name.toLowerCase().includes(search.toLowerCase()) || pokemon.id.toString().includes(search.toLowerCase());
+          });
+          setFilteredPokemon(filtered);
+      }
+  }, [search, allPokemon]);
+     
     if (loading) {
       return <Spinner
       thickness="4px"
@@ -58,11 +77,17 @@ const PokeList = () => {
       />
     }
 
- 
+  
   const handleSearchChange = (e) => {
     setSearch(e.target.value);
    
   };
+
+ const handleTypeChange = (type) => {
+    setSelectedType(type);
+    setType(type);
+    };
+ 
 
   const handlePokemonClick = async (pokemon) => {
     setLoading(true);
@@ -81,44 +106,78 @@ const PokeList = () => {
     }
   };
 
+  const handleMotionToggle = () => {
+    
+    
+  }
+ const handleSpriteToggle = () => {
+    setView(prevView => prevView === 'artwork' ? 'sprites' : 'artwork');
+    console.log(view);
+
+ };
+
+  
 
 
   
   return (
-    <div className="pokedex-container">
-      <div className="pokedex-grid cursor-pointer" style={{ textTransform: 'capitalize' }}> 
-        <span className="pokeball" style={{ backgroundImage: `url(${pokeball})` }}></span>
+    <section className='px-2 w-full mx-auto z-40 pt-4'>
+      <Button onClick={handleMotionToggle()}>
+        {motion === true ? 'Motion On' : 'Motion Off'}
+      </Button>
+
+      <Checkbox onClick={handleSpriteToggle}> 
+           {view === 'artwork' ? 'Show Sprites' : 'Show Artwork'}
+             </Checkbox>
+             <Input 
+             type="text"
+             placeholder="Search by Pokemon or ID"
+             value={search}
+              onChange={handleSearchChange}
+              className="search-bar"
+              />
+      
+    
+   
+      <div style={{ textTransform: 'capitalize' }}> 
+    
         {allPokemon.length  > 0 && (
-          <Grid templateColumns="repeat(4, 1fr)" gap={4} className="">
-            {allPokemon 
+          <Grid templateColumns="repeat(4, 1fr)" gap={4} className="pokemon-grid-card">
+            {allPokemon
+            .filter(pokemon => selectedType ? pokemon.types.some(type => type.type.name === selectedType) : true)
               .map((pokemon, index) => (
                 <GridItem 
                 key={index} 
                 backgroundColor={Colors[pokemon.types[0].type.name]}
                 borderRadius="10px" 
                 p="20px" 
-                border="2px solid black"
-                className="grid grid-cols-2 justify-items-center gap-x-2 md:gap-x-4 md:gap-y-5 gap-y-2 md:w-11/12 w-full mx-auto pb-10 z-10"
+                boxShadow="md"
+                className="grid md:grid-cols-5 xl:grid-cols-4 grid-cols-2 justify-items-center gap-x-2 md:gap-x-4 md:gap-y-5 gap-y-2 md:w-11/12 w-full mx-auto pb-10 z-10"
                 onClick={() => handlePokemonClick(pokemon)}
                 style={{cursor: 'pointer'}}
                 >          
                     <h2 className="capitalize font-bold tracking-tighter md:text-lg text-sm text-white">{pokemon.name} 
                     </h2>
                     <h3>#{String(`${pokemon.id}`).padStart(3, "0")}</h3>
-                    <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`} alt={pokemon.name} className='pkdexsprites' />
+
+                    {view === 'artwork' ? (
+                   <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`} alt={pokemon.name} className='artwork' />
+                    ) : (
+                    <img src={pokemon.sprites.front_default} alt={pokemon.name} className='pkdexsprites' />
+                       )}
+                   
                    <Flex align="center" justify="center" className="type-container">
-                   <figcaption className='flex flex-col  justify-center items-center w-1/2'>
+                   <figcaption className='flex flex-row justify-center items-center w-1/2'>
                     {pokemon.types && pokemon.types.map((type, i) => (
                       <Text key={i} 
                       backgroundColor={Colors[type.type.name]}
-                       borderRadius={5} 
-                       textAlign="center" 
+                       flexAlign="row" 
                         padding="5px"
-                        border='1px solid black'
-                  
+                       borderRadius="20px"
                        className='my-1 rounded-full md:text-base text-xs typeName'
                   peName
-                      >{type.type.name}</Text>
+                      >{type.type.name}
+                      </Text>
                     ))}
                     </figcaption>
                 </Flex>
@@ -127,8 +186,8 @@ const PokeList = () => {
           </Grid>
         )}
       </div>
-      <ScrollToTop smooth color="#f5f5f5" />
-    </div>
+      <ScrollToTop smooth color={'inherit'} />  
+    </section>
   );
 }
 

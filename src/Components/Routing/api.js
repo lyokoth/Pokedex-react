@@ -1,6 +1,7 @@
 // import axios from 'axios';
 
 const apiUrl ="https://pokeapi.co/api/v2/pokemon/";
+const abilityUrl = "https://pokeapi.co/api/v2/ability/";
 
 
 export const fetchPokemonData = async (pokemon) => {
@@ -84,15 +85,19 @@ export const fetchPokemonType = async (type) => {
 
 
 
-export const fetchPokemonAbility = async (ability) => {
-    try {
-    const res = await  fetch(`https://pokeapi.co/api/v2/ability/${ability}`);
-    const data = await res.json();
-    return data;
-    } catch (error) {
-        throw new Error(`Error fetching ability data: ${error.message}`);
-    }
+export const fetchPokemonAbility = async (ability, lang='en') => {
+    const dataList = await fetch(`${abilityUrl}${ability}`)
+    .then(response => response.json())
+    .catch(error => console.log(error));
 
+    if (dataList) {
+        for (const entry in dataList.effect_entries) {
+            if (dataList.effect_entries[entry].language.name === lang) {
+                return dataList.effect_entries[entry].effect;
+            }
+        }
+
+    }
 };
 
 export const Colors = {

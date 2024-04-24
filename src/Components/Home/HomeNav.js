@@ -6,6 +6,7 @@ import Pokeball from '../../assets/pokeball-white.png';
 // import Pokedex from "../../Components/Pokedex/Pokedex";
 
 import './Home.css';
+import { Heading } from "@chakra-ui/react";
 
 
 
@@ -14,8 +15,8 @@ const HomeNav = () => {
 
 
     return(
-        <section className="grid-container">
-     
+      
+        <div className="grid-container">
             <figure className="cardNavi">
                 <Link 
                 to="/pokedex"
@@ -79,10 +80,21 @@ const HomeNav = () => {
                     <img className='pokeball1' src={Pokeball} alt='pokeball' />
                     </Link>
                     </figure>
-                 
-
-
-        </section>
+                    <figure className="cardNavi">
+                        <Link
+                        to="/abilities"
+                        onClick={() => {
+                            setPokemon();
+                            setSinglePokemon([]);
+                        }}>
+                        <img className='pokeball1' src={Pokeball} alt='pokeball' />
+                        <figcaption className="text-lg">Abilities</figcaption>
+                        <img className='pokeball1' src={Pokeball} alt='pokeball' />
+                        </Link>
+                    </figure>
+               
+        </div>
+       
     )
 }
 export default HomeNav;

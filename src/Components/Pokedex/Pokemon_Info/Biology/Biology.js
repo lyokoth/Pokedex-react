@@ -23,6 +23,10 @@ const Biology = ({pokemon}) => {
     const genderPercentage = pokemon.gender_rate !== -1
     ? (pokemon.gender_rate / 8) * 100
     : -1;
+
+    if (!pokemon.name) {
+        return <Spinner color='purple.500' speed="0.65s" emptyColor='gray.200' size='xl' />;
+    }
   
 
 

@@ -11,21 +11,22 @@ const PokedexProvider = ({ children }) => {
     const [singlePokemon, setSinglePokemon] = useState([]);
     const [about, setAbout] = useState([]);
     const [location, setLocation ] = useState([]);
+    const [allPokemon, setAllPokemon] = useState([]);
     const [evolution, setEvolution] = useState([]);
     const [preEvolution, setPreEvolution] = useState([]);
     // const [initValue, setInitValue] = useState(0);
     // const [effortValue, setEffortValue] = useState(0);
 
-    const getPokemon = async() => {
+    const getPokemon = async () => {
         setLoading(true);
 
         try {
-            const data = await fetchPokemon(893, 0);
+            const data = await fetchPokemon(1025, 0);
             const promises = data.results.map(async (pokemon) => {
                 return await fetchPokemonData(pokemon.url)
             });
             const results = await Promise.all(promises);
-            setPokemon(results);
+            setAllPokemon(results);
             setSinglePokemon([]);
             //setTimeout(() => {
                 setLoading(false);
@@ -50,6 +51,8 @@ const PokedexProvider = ({ children }) => {
         setPokemon,
         singlePokemon,
         setSinglePokemon,
+        allPokemon,
+        setAllPokemon,
         about,
         setAbout,
         location,

@@ -1,0 +1,12 @@
+.header {
+    display: fixed;
+    top: 0;
+    padding: 68px, 38px, 0;
+}
+
+.arrow-back-icon {
+    font-size: 10px;
+    color: white;
+    cursor: pointer;
+    margin: 1rem;
+}

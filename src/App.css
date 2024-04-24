@@ -1,6 +1,9 @@
 .App {
   text-align: center;
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: 'Roboto', sans-serif;
+  --scrollbar-width: thin;
+  --scrollbar-color: #c0c0c0;
+
 
   
 }
@@ -16,6 +19,7 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
+
 
 
 .App-header {
@@ -40,4 +44,27 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+::-webkit-scrollbar {
+  scroll-behavior: smooth;
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(34, 34, 34, 0.85);
+  scroll-behavior: smooth;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+  background: #DAF0F7;
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color: #DAF0F7;
+  border-radius: 20px;
 }

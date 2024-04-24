@@ -1,221 +1,84 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Flex, GridItem, Heading, Text, Input, IconButton } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 import { StatColors } from '../../Components/Routing/api';
-import { AddIcon, MinusIcon } from '@chakra-ui/icons';
-import gridLogo from '../../assets/pokeball-white.png';
+import {Swal } from 'sweetalert2';
+//import { AddIcon, MinusIcon } from '@chakra-ui/icons';
+//import gridLogo from '../../assets/pokeball-white.png';
 
-const natures = [
-    {
-        name: "Adamant",
-        increasedStat: "attack",
-        decreasedStat: "special-attack"
-    },
-    {
-        name: "Bashful",
-        increasedStat: "none",
-        decreasedStat: "none"
-    },
-    {
-        name: "Bold",
-        increasedStat: "defense",
-        decreasedStat: "attack"
-    },
-    {
-        name: "Brave",
-        increasedStat: "attack",
-        decreasedStat: "speed"
-    },
-    {
-        name: "Calm",
-        increasedStat: "special-defense",   
-        decreasedStat: "Attack"
-    },
-    {
-        name: "Careful",
-        increasedStat: "",
-        decreasedStat: "Special Attack"
-    },
-    {
-        name: "Docile",
-        increasedStat: "None",
-        
-    },
-    {
-        name: "Gentle",
-        increasedStat: "special-defense",
-        decreasedStat: "Defense"
-    },
-    {
-        name: "Hardy",
-        increasedStat: "none",
-        decreasedStat: "none"
-    },
-    {
-        name: "Hasty",
-        increasedStat: "speed",
-        decreasedStat: "Defense"
-    },
-    {
-        name: "Impish",
-        increasedStat: "defense",
-        decreasedStat: "Special Attack"
-    },
-    {
-        name: "Jolly",
-        increasedStat: "Speed",
-        decreasedStat: "Special Attack"
-    },
-    {
-        name: "Lax",
-        increasedStat: "defense",
-        decreasedStat: "Special Defense"
-    },
-    {
-        name: "Lonely",
-        increasedStat: "attack",
-        decreasedStat: "Defense"
-    },
-    {
-        name: "Mild",
-        increasedStat: "special-attack",
-        decreasedStat: "Defense"
-    },
-    {
-        name: "Modest",
-        increasedStat: "special-attack",
-        decreasedStat: "Attack"
-    },
-    {
-        name: "Naive",
-        increasedStat: "speed",
-        decreasedStat: "Special Defense"
-    },
-    {
-        name: "Naughty",
-        increasedStat: "attack",
-        decreasedStat: "Special Defense"
-    },
-    {
-        name: "Quiet",
-        increasedStat: "special-attack",
-        decreasedStat: "Speed"
-    },
-    {
-        name: "Quirky",
-        increasedStat: "None",
-      
-    },
-    {
-        name: "Rash",
-        increasedStat: "special-attack",
-        decreasedStat: "special-defense"
-    },
-    {
-        name: "Relaxed",
-        increasedStat: "defense",
-        decreasedStat: "speed"
-    },
-    {
-        name: "Sassy",
-        increasedStat: "special-defense",
-        decreasedStat: "speed"
-    },
-    {
-        name: "Serious",
-        increasedStat: "none",
-        decreasedStat: "none"
-    },
-    {
-        name: "Timid",
-        increasedStat: "speed",
-        decreasedStat: "attack"
-    }
-];
 
-const searchNatures = (natures, query) => {
-  if (!query) {
-    return natures;
-  }
-  return natures.filter((nature) => {
-    const natureName = nature.name.toString();
-    const increasedStat = nature.increasedStat.toString();
-    const decreasedStat = nature.decreasedStat.toString();
-    return natureName.includes(query) || increasedStat.includes(query) || decreasedStat.includes(query);
-  });
+
+const getAllNatures = async () => {
+    const response = await fetch('https://pokeapi.co/api/v2/nature');
+    const data = await response.json();
+    return data.results;
+
+
 };
+ 
+const Natures = () => {
+    const [natures, setNatures] = useState([]);
+    const [search, setSearch] = useState('');
 
-const NatureCard = ({ nature }) => {
-  let increasedStatColor = StatColors[nature.increasedStat];
-  let decreasedStatColor = StatColors[nature.decreasedStat];
+    const { name, increased_stat, decreased_stat, likes_flavor, hates_flavor } = natures;
+    
+    useEffect(() => {
+        const fetchNatures = async () => {
+            const natures = await getAllNatures();
+            setNatures(natures);
+        };
+        fetchNatures();
+    }, []);
 
-  if (nature.increasedStat === "none" && nature.decreasedStat === "none") {
-    increasedStatColor = "#000000";
-    decreasedStatColor = "#000000";
-  }
+    const filteredNatures = natures.filter((nature) => {
+        if (search === '') {
+            return true;
+        } else {
+            return nature.name.toLowerCase().includes(search.toLowerCase());
+        }
+    });
 
-  return (
-    <Grid
-      templateColumns="repeat(5, 1fr)"
-      gap={6}
-      borderRadius="sm"
-      w="50%"
-      overflow="hidden"
-      bg={StatColors[nature.increasedStat]}
-      boxShadow="lg"
-      color="black"
-      p="4"
-      m="4"
-      bgImage={gridLogo} 
-    >
-      <GridItem w='100%' h='80px'>
-        <Flex direction="column">
-          <Heading as="h2" size="lg" mb="2">{nature.name}</Heading>
-          <Text>
-            <AddIcon color={increasedStatColor} />
-            {nature.increasedStat}</Text>
-          <Text>
-            <MinusIcon color={decreasedStatColor} />
-            {nature.decreasedStat}</Text>
-        </Flex>
-      </GridItem>
-    </Grid>
-  );
-};
+    return (
+        <div>
+            <Heading as="h1" size="lg" textAlign="center" mt={5} mb={5}>Natures</Heading>
+            <Flex justifyContent="center" mb={5}>
+                <Input
+                    type="text"
+                    placeholder="Search Natures"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+                <IconButton
+                    aria-label="Search database"
+                    icon={<SearchIcon />}
+                    onClick={() => setSearch(search)}
+                />
+            </Flex>
+            <Grid
+                templateColumns="repeat(3, 1fr)"
+                gap={6}
+                justifyContent="center"
+                alignItems="center"
+                mb={5}
+            >
+                {filteredNatures.map((nature) => (
+                    <GridItem
+                        key={nature.name}
+                        p={5}
+                        boxShadow="md"
+                        borderRadius="md"
+                        bg={StatColors[nature.increased_stat]}
+                    >
+                        <Text textTransform={'capitalize'}>{nature.name}</Text>
+                        <Text>Increased Stat: {increased_stat}</Text>
+                        <Text>Decreased Stat: {decreased_stat}</Text>
 
-const NatureCardList = () => {
-  const [query, setQuery] = useState("");
 
-  const filteredNatures = searchNatures(natures, query);
-  return (
-    <div>
-      <Flex align="center">
-        <Input
-          type="text"
-          placeholder="Search by Nature or by Stat..."
-          onChange={(e) => setQuery(e.target.value)}
-          value={query}
-          w="50%"
-          m="4"
-          p="4"
-          bg="white"
-          boxShadow="lg"
-          borderRadius="sm"
-        />
-        <IconButton
-          aria-label="Search"
-          icon={<SearchIcon />}
-          onClick={() => {}}
-          bg="white"
-          boxShadow="lg"
-          borderRadius="sm"
-        />
-      </Flex>
-      {filteredNatures.map((nature, i) => (
-        <NatureCard key={i} nature={nature} />
-      ))}
-    </div>
-  );
-};
-
-export default NatureCardList;
+                    </GridItem>
+                ))}
+            </Grid>
+        </div>
+    );
+}
+export default Natures;
+// Path: src/pages/Natures/Natures.js

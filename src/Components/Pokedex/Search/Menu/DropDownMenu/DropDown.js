@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import SearchMenu from "../Menu";
 import GenerationFilter from "../../../GenerationFilter/GenerationFilter";
-import TypeFilter from "../../TypeFilter";
+import TypeFilter from "../../TypesFilter/TypeFilter";
 import "./DropDown.css";
 import MenuListBtn from "../MenuListBtn";
 

@@ -1,7 +1,6 @@
 import React from 'react';
-import { Box, Flex, Heading } from '@chakra-ui/react';
 import './Generation.css';
-
+import { Heading, } from '@chakra-ui/react';
 import GenI from '../../../assets/GenI.jpg';
 import GenII from '../../../assets/GenII.jpg';
 import GenIII from '../../../assets/GenIII.jpg';
@@ -11,15 +10,12 @@ import GenVI from '../../../assets/GenVI.png';
 import GenVII from '../../../assets/GenVII.jpg';
 import GenVIII from '../../../assets/GenVIII.jpg';
 import GenIX from '../../../assets/GenIX.png';
-
-import { useNavigate } from 'react-router-dom'; 
-
 import GenCard from './GenCard';
 
 
 
-const Generation = ({ searchGeneration, setSearchGeneration }) => {
-   const navigate = useNavigate();
+const Generation = ({ searchGeneration}) => {
+
 
     const Regions = [
         {
@@ -46,7 +42,7 @@ const Generation = ({ searchGeneration, setSearchGeneration }) => {
         },
         {
             region: "Sinnoh",
-            limit: 108,
+            limit: 107,
             generation: "IV",
             offset: 386,
             img: `${GenIV}`,
@@ -54,8 +50,8 @@ const Generation = ({ searchGeneration, setSearchGeneration }) => {
         {
             region: "Unova",
             generation: "V",
-            limit: 155,
-            offset: 494,
+            limit: 156,
+            offset: 493,
             img: `${GenV}`,
         },
         {
@@ -81,21 +77,14 @@ const Generation = ({ searchGeneration, setSearchGeneration }) => {
         },
         {
             region: "Paldea",
-            limit: 100,
+            limit: 120,
             offset: 905,
             img: `${GenIX}`,
             generation: "IX",
-        }
-    
-
-
+        },
 ];
 
-const handleGenerationClick = (region) => {
-    setSearchGeneration(!searchGeneration);
-   navigate(`/pokedex/${region}-pokedex`);
-    console.log("Displaying " + region + " pokedex");
-}
+
 
 
 
@@ -108,36 +97,21 @@ const handleGenerationClick = (region) => {
             }`}
         >
 
-     <Box className='generationSection' overflowY='auto' h='500px'>
-  <Heading
-  colorScheme='black'>Generation</Heading>
-  <Flex className='grid xl:grid-cols-4 md:grid-cols-4 grid-cols-2 justify-items-center gap-x-3 md:gap-x-4 md:gap-y-5 gap-y-3 md:w-11/12 w-full mx-auto pb-4 overflow-y-scroll h-full'>
-    {Regions.slice(0, 4).map((generation) => (
-      <GenCard
-        key={generation.region}
-        generation={generation.generation}
-        image={generation.img}
-        limit={generation.limit}
-        offset={generation.offset}
-        searchGeneration={searchGeneration}
-        handleGenerationClick={handleGenerationClick}
-      />
-    ))}
-  </Flex>
-  <Flex className='grid xl:grid-cols-5 md:grid-cols-5 grid-cols-2 justify-items-center gap-x-3 md:gap-x-4 md:gap-y-5 gap-y-3 md:w-11/12 w-full mx-auto pb-4 overflow-y-scroll h-full'>
-    {Regions.slice(4).map((generation) => (
-      <GenCard
-        key={generation.name}
-        generation={generation.generation}
-        image={generation.img}
-        limit={generation.limit}
-        offset={generation.offset}
-        searchGeneration={searchGeneration}
-        handleGenerationClick={handleGenerationClick}
-      />
-    ))}
-  </Flex>
-</Box>
+<article className='generationSection'>
+                <Heading as="h1" className='text-lg font-extrabold pb-4'>Generation</Heading>
+                <article className='grid xl:grid-cols-5 md:grid-cols-4 grid-cols-2 justify-items-center gap-x-3 md:gap-x-4 md:gap-y-5 gap-y-3 md:w-11/12 w-full mx-auto pb-4 overflow-y-scroll h-full'>
+                    {Regions.map((generation) => (
+                        <GenCard
+                            key={generation.region}
+                            generation={generation.generation}
+                            img={generation.img}
+                            limit={generation.limit}
+                            offset={generation.offset}
+                          
+                        />
+                    ))}
+                </article>
+            </article>
         </section>
     );
 };

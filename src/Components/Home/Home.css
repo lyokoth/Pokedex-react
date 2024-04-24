@@ -119,6 +119,21 @@
 .cardNavi:nth-child(5) .pokeball1 {
     background-color: #F8D030;
 }
+.cardNavi:nth-child(6) {
+    background-color: #F09030;
+
+}
+.cardNavi:nth-child(6) .pokeball1{
+    background-color: #F09030;
+}
+
+.cardNavi:nth-child(7) {
+    background-color: #7038F8;
+}
+
+.cardNavi:nth-child(7) .pokeball1 {
+    background-color: #7038F8;
+}
 
 @media screen and (max-width: 768px) {
     .cardNavi {

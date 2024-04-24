@@ -1,38 +1,41 @@
 import React from 'react';
 import PokedexContext from '../../../functions/Context';
+import { Button } from '@chakra-ui/react';
 import { useContext } from 'react';
-import {fetchPokemon, fetchPokemonData} from '../../../functions/api';
+import {fetchPokemon} from '../../Routing/api';
+import { StarIcon } from '@chakra-ui/icons';
 
 const GenerationFilter = () => {
-    const { setPokemon, setLoading } = useContext(PokedexContext);
+    const { setAllPokemon, setLoading } = useContext(PokedexContext);
+    const url = 'https://pokeapi.co/api/v2/pokemon-species?';
 
-    const getAllPokemons = async () => {
+    const getAllPokemon = async () => {
         setLoading(true);
 
         try {
-            const data = await fetchPokemon(1126, 0);
+            const data = await fetchPokemon(10000, 0);
             const promises = data.results.map(async (pokemon) => {
-                return await fetchPokemonData(pokemon.url);
+                return await fetch(pokemon.url).then((res) => res.json());
             });
             const results = await Promise.all(promises);
-            setPokemon(results);
+            setAllPokemon(results);
             setLoading(false);
         } catch (error) {
             setLoading(false);
         }
-    };
+    }; 
 
     return (
-        <button
+        <Button
             className='genMenu'
             onClick={() => {
-                getAllPokemons();
+                getAllPokemon();
                 // setDropActive(false);
             }}
         >
-            <p>All Gen</p>
-            <span className='material-icons-outlined icons'>bolt</span>
-        </button>
+            <p>All Gens</p>
+            <span className='material-icons-outlined icons'><StarIcon /></span>
+        </Button>
     );
 };
 
