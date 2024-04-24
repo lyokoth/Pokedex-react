@@ -8,65 +8,66 @@ const Types = ({ pokemon }) => {
     const [resistances, setResistances] = useState([]);
     const [immunities, setImmunities] = useState([]);
 
-
     useEffect(() => {
         const fetchTypeUrl = async () => {
             try {
-                const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon.id}/`);
-                const type_url = res.data.types[0].type.url;
-                const res_type = await axios.get(type_url);
-                const typeData = res_type.data;
-                
-                const weaknessesData = typeData.damage_relations.double_damage_from;
+                const weaknessesData = [];
+                const resistancesData = [];
+                const immunitiesData = [];
+                for (const typeObj of pokemon.types) {
+                    const res_type = await axios.get(typeObj.type.url);
+                    const typeData = res_type.data;
+                    weaknessesData.push(...typeData.damage_relations.double_damage_from);
+                    resistancesData.push(...typeData.damage_relations.half_damage_from);
+                    immunitiesData.push(...typeData.damage_relations.no_damage_from);
+                }
                 setWeaknesses(weaknessesData);
-                const resistancesData = typeData.damage_relations.half_damage_from;
                 setResistances(resistancesData);
-                const immunitiesData = typeData.damage_relations.no_damage_from;
                 setImmunities(immunitiesData);
-                console.log('weaknesses:', weaknessesData);
             } catch (error) {
                 console.log('Error fetching type data:', error);
             }
         };
-    
+
         fetchTypeUrl();
-    }, [pokemon.id]);
+    }, [pokemon.types]);
 
     return (
         <Card w="100%" p={2} boxShadow="md" rounded="md" bg="white">
             <Stack spacing={2} p={2}>
-                <Text fontWeight="bold">Type</Text>
+                <Heading size="md">Type Effectiveness</Heading>
                 <Divider />
-                <Text>Double Damage To:</Text>
+                <Text>Supereffective damage from:</Text>
                 <Stack direction="row" spacing={2}>
                     {weaknesses.map((weakness, index) => (
                         <Text 
-                        className="flex flex-row my-2 mx-1 rounded-full md:text-base text-md typeName"
-                        key={index} 
-                        style={{ backgroundColor: Colors[weakness.name]}}>{weakness.name}</Text>
+                            className="flex flex-row my-2 mx-1 rounded-full md:text-base text-md typeName"
+                            key={index} 
+                            style={{ backgroundColor: Colors[weakness.name] }}>{weakness.name}</Text>
                     ))}
                 </Stack>
             </Stack>
             <Divider />
             <Stack spacing={2} p={2}>
-                <Text>Half Damage To:</Text>
+                <Text>0.5x damage from:</Text>
                 <Stack direction="row" spacing={2}>
                     {resistances.map((resistance, index) => (
                         <Text 
-                        className="flex flex-row my-2 mx-1 rounded-full md:text-base text-md typeName"
-                        key={index} 
-                        style={{ backgroundColor: Colors[resistance.name]}}>{resistance.name}</Text>
+                            className="flex flex-row my-2 mx-1 rounded-full md:text-base text-md typeName"
+                            key={index} 
+                            style={{ backgroundColor: Colors[resistance.name] }}>{resistance.name}</Text>
                     ))}
                 </Stack>
             </Stack>
+            <Divider />
             <Stack spacing={2} p={2}>
-                <Text>No Damage To:</Text>
+                <Text>No damage from:</Text>
                 <Stack direction="row" spacing={2}>
                     {immunities.map((immunity, index) => (
                         <Text 
-                        className="flex flex-row my-2 mx-1 rounded-full md:text-base text-md typeName"
-                        key={index} 
-                        style={{backgroundColors: Colors[immunity.name]}}>{immunity.name}</Text>
+                            className="flex flex-row my-2 mx-1 rounded-full md:text-base text-md typeName"
+                            key={index} 
+                            style={{ backgroundColor: Colors[immunity.name] }}>{immunity.name}</Text>
                     ))}
                 </Stack>
             </Stack>
