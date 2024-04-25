@@ -20,7 +20,7 @@ import Types from '../Pokemon_Info/Tabs/Type';
 
 
 
- const SinglePokeCard = ({abilityDescriptions, setAbilityDescriptions}) => {
+ const SinglePokeCard = () => {
 
   const [pokemon, setPokemon] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -39,10 +39,12 @@ import Types from '../Pokemon_Info/Tabs/Type';
         const species = await speciesData.json();
         const evolutionData = await fetch(species.evolution_chain.url);
         const evolution = await evolutionData.json();
+      
    
        
 
         setPokemon({...data, ...species, ...evolution});
+      
        
      
       } catch (error) {
@@ -72,6 +74,10 @@ import Types from '../Pokemon_Info/Tabs/Type';
 
   const inches = (height * 3.93701).toFixed(0);
   const feet = Math.floor(Number(inches) / 12); 
+  const centimeters = (height * 10).toFixed(0);
+  const meters = (centimeters / 100).toFixed(2);
+  const kg = (weight / 10).toFixed(1);
+
 
   const genderPercentage = pokemon.gender_rate !== -1 ? (pokemon.gender_rate / 8) * 100 : -1;
   const jpnName = pokemon.names.find((name) => name.language.name === 'ja').name;
@@ -81,16 +87,12 @@ import Types from '../Pokemon_Info/Tabs/Type';
   const handleAbilityClick = (ability) => {
     Swal.fire({
         title: 'Ability',
-        text: abilityDescriptions[0], 
+        text: 'Description: ' + ability.ability.name + ' - ' + ability.effect_entries[0].effect,
         icon: 'info',
         confirmButtonText: 'Close',
         confirmButtonColor: 'Colors[types[0].type.name]',
     });
 };
-
-
-
-
 
 
 
@@ -193,8 +195,32 @@ import Types from '../Pokemon_Info/Tabs/Type';
             <Card className="flavor-text" style={{border: '2px'}}>
                 <Heading size="md">Pokédex Entry:</Heading>
                 <Stack direction={{base: "row", md: "row"}} spacing={4}>
+                <Tabs>
+                    <TabList>
+                      <Tab>En</Tab>
+                      <Tab>Jpn</Tab>
+                      <Tab>Fr</Tab>
+                      <Tab>Kr</Tab>
+
+                    </TabList>
+                    <TabPanels>
+                        <TabPanel>
+                        <Text>{pokemon.flavor_text_entries[1].flavor_text}</Text>
+                        </TabPanel>
+                        <TabPanel>
+                        <Text>{pokemon.flavor_text_entries[6].flavor_text}</Text>
+                        </TabPanel>
+                        <TabPanel>
+                        <Text>{pokemon.flavor_text_entries[2].flavor_text}</Text>
+                        </TabPanel>
+                        <TabPanel>
+                        <Text>{pokemon.flavor_text_entries[7].flavor_text}</Text>
+                        </TabPanel>
+
+                    </TabPanels>
+                </Tabs>
+              
                 
-                <Text>{pokemon.flavor_text_entries[0].flavor_text}</Text>
                 </Stack>
                 </Card>
             
@@ -212,7 +238,7 @@ import Types from '../Pokemon_Info/Tabs/Type';
               </TabList>
               <TabPanels>
                   <TabPanel>
-             {/* <About pokemon={pokemon} /> */}
+             <About pokemon={pokemon} /> 
                   </TabPanel>
                   <TabPanel>
                      <Stats stats={stats} />
@@ -221,7 +247,7 @@ import Types from '../Pokemon_Info/Tabs/Type';
                      
         
           <Heading size="md">Evolution Chain</Heading>
-           <Evolution pokemon={pokemon} />
+                 <Evolution pokemon={pokemon} /> 
             
 
                   </TabPanel>
@@ -240,7 +266,7 @@ import Types from '../Pokemon_Info/Tabs/Type';
                   </TabPanel>
                   <TabPanel>
                       <Heading>Forms:</Heading>
-                    {/* <Forms pokemon={pokemon} /> */}
+                    {/*<Forms pokemon={pokemon} />  */}
                   
 
                     
