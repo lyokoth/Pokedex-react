@@ -55,6 +55,10 @@ Created entirely in React, the Pokedex allows you to look up information about y
 
 -![](https://github.com/lyokoth/Pokedex-react/blob/master/src/assets/screenshots/image.png)
 
+
+- Updated Pokedex entry page: Archaludon along with type chart detailing weaknesses, strengths, and resistances:
+- ![](https://github.com/lyokoth/Pokedex-react/blob/master/src/assets/screenshots/localhost_3001_pokemon_1018%20.png)
+
 ## To dos
 
 - Finish Teambuilder/Account function
