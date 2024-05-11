@@ -13,7 +13,7 @@ import  pokeballBlack from '../../../assets/icons8-pokeball-48.png';
 import About from '../Pokemon_Info/Tabs/About';
 import Stats from '../Pokemon_Info/Tabs/Stats';
 import Moves from '../Pokemon_Info/Tabs/Moves';
-import Forms from '../Pokemon_Info/Tabs/Forms';
+//import Forms from '../Pokemon_Info/Tabs/Forms';
 import Evolution from '../Pokemon_Info/Tabs/Evolution';
 import Swal from 'sweetalert2';
 import Types from '../Pokemon_Info/Tabs/Type';
@@ -193,33 +193,13 @@ import Types from '../Pokemon_Info/Tabs/Type';
             </div>
 
             <Card className="flavor-text" style={{border: '2px'}}>
-                <Heading size="md">Pokédex Entry:</Heading>
+                <Heading size="md">Pokédex Entries:</Heading>
                 <Stack direction={{base: "row", md: "row"}} spacing={4}>
-                <Tabs>
-                    <TabList>
-                      <Tab>En</Tab>
-                      <Tab>Jpn</Tab>
-                      <Tab>Fr</Tab>
-                      <Tab>Kr</Tab>
+                
+                        <Text>{pokemon.flavor_text_entries[0].flavor_text}</Text>
+                        
 
-                    </TabList>
-                    <TabPanels>
-                        <TabPanel>
-                        <Text>{pokemon.flavor_text_entries[1].flavor_text}</Text>
-                        </TabPanel>
-                        <TabPanel>
-                        <Text>{pokemon.flavor_text_entries[6].flavor_text}</Text>
-                        </TabPanel>
-                        <TabPanel>
-                        <Text>{pokemon.flavor_text_entries[2].flavor_text}</Text>
-                        </TabPanel>
-                        <TabPanel>
-                        <Text>{pokemon.flavor_text_entries[7].flavor_text}</Text>
-                        </TabPanel>
-
-                    </TabPanels>
-                </Tabs>
-              
+               
                 
                 </Stack>
                 </Card>
@@ -259,14 +239,18 @@ import Types from '../Pokemon_Info/Tabs/Type';
                   </TabPanel>
                   <TabPanel>
                     <Heading>Sprites:</Heading>
+
                     <img src={sprites.front_default} alt={pokemon.name} />
                     <img src={sprites.back_default} alt={pokemon.name} />
                     <img src={sprites.front_shiny} alt={pokemon.name} />
                     <img src={sprites.back_shiny} alt={pokemon.name} />
+                  
                   </TabPanel>
+       
+               
                   <TabPanel>
                       <Heading>Forms:</Heading>
-                    {/*<Forms pokemon={pokemon} />  */}
+                  
                   
 
                     

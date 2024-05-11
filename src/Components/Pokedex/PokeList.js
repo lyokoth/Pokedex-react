@@ -10,6 +10,7 @@ import ScrollToTop from 'react-scroll-to-top';
 //import SearchBar from './Search/SearchForm.js';
 import {Switch}  from '@chakra-ui/react';
 // add sidebar for generation filter
+import RandomPokeList from './RandomPokeList';
 
 const PokeList = () => {
   const [pokemon, setPokemon] = useState([]); 
@@ -106,44 +107,36 @@ const PokeList = () => {
     }
   };
 
-  const handleMotionToggle = () => {
-    
-    
-  }
- const handleSpriteToggle = () => {
-    setView(prevView => prevView === 'artwork' ? 'sprites' : 'artwork');
-    console.log(view);
 
- };
+  const handleSpriteToggle = () => {
+    setView(view === 'artwork' ? 'sprites' : 'artwork');
+  };
 
-  
-
-
-  
   return (
     <section className='px-2 w-full mx-auto z-40 pt-4'>
-      <Button onClick={handleMotionToggle()}>
-        {motion === true ? 'Motion On' : 'Motion Off'}
-      </Button>
-
+     
       <Checkbox onClick={handleSpriteToggle}> 
-           {view === 'artwork' ? 'Show Sprites' : 'Show Artwork'}
+           {view === 'artwork' ? 'View Sprites' : 'View Artwork'}
              </Checkbox>
+
+
              <Input 
              type="text"
              placeholder="Search by Pokemon or ID"
              value={search}
+             style={{width: '90%', margin: '10px 0'}}
               onChange={handleSearchChange}
               className="search-bar"
+             
               />
       
-    
+
    
       <div style={{ textTransform: 'capitalize' }}> 
     
-        {allPokemon.length  > 0 && (
+        {filteredPokemon.length  > 0 && (
           <Grid templateColumns="repeat(4, 1fr)" gap={4} className="pokemon-grid-card">
-            {allPokemon
+            {filteredPokemon
             .filter(pokemon => selectedType ? pokemon.types.some(type => type.type.name === selectedType) : true)
               .map((pokemon, index) => (
                 <GridItem 
@@ -166,6 +159,7 @@ const PokeList = () => {
                     <img src={pokemon.sprites.front_default} alt={pokemon.name} className='pkdexsprites' />
                        )}
                    
+                   
                    <Flex align="center" justify="center" className="type-container">
                    <figcaption className='flex flex-row justify-center items-center w-1/2'>
                     {pokemon.types && pokemon.types.map((type, i) => (
@@ -181,7 +175,7 @@ const PokeList = () => {
                     ))}
                     </figcaption>
                 </Flex>
-                </GridItem>
+                </GridItem> 
               ))}
           </Grid>
         )}
@@ -189,6 +183,6 @@ const PokeList = () => {
       <ScrollToTop smooth color={'inherit'} />  
     </section>
   );
-}
+ }
 
 export default PokeList;

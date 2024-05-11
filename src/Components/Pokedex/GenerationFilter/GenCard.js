@@ -41,8 +41,8 @@ const GenCard = ({ region, generation, limit, offset, img}) => {
 
 
   return (
-    
-    <figure className='generationCard' onClick={handleGenClick}>
+   <Grid templateColumns='repeat(3, 1fr)' gap={6}>
+    <GridItem className='generationCard' onClick={handleGenClick}>
     <figcaption className='md:text-base text-xs text-center font-medium'>
         Generation {generation}
     </figcaption>
@@ -52,7 +52,9 @@ const GenCard = ({ region, generation, limit, offset, img}) => {
         alt='Pokemon Generation'
         style={{width: '90%', height: '90%', }}
     />
-</figure>
+</GridItem>
+</Grid>
+
 
 );
 };

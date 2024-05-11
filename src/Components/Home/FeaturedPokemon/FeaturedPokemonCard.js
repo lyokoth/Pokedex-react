@@ -3,10 +3,21 @@ import './FeaturedPokemon.css';
 import { Colors, StatColors, EggGroupColors } from '../../../Components/Routing/api';
 import cardLogo from '../../../assets/icons8-pokeball-50.png';
 import Swal from 'sweetalert2';
-import { Card, CardHeader, Button, CardBody, Heading, Flex, Stack, CardFooter, Text, Progress } from '@chakra-ui/react';
+import { Card, CardHeader, Button, CardBody, Heading, Flex, Stack, Text, Progress } from '@chakra-ui/react';
+import {
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverHeader,
+    PopoverBody,
+    PopoverFooter,
+    PopoverArrow,
+    PopoverCloseButton,
+    } from "@chakra-ui/react";
+
 import { Spinner, Center } from '@chakra-ui/react';
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
-
+import Evolution from './Evolution';
 import axios from 'axios';
 import Biology from '../../Pokedex/Pokemon_Info/Biology/Biology';
 
@@ -73,14 +84,13 @@ useEffect(() => {
     
     const handleAbilityClick = (ability) => {
         Swal.fire({
-            title: 'Ability',
-            text: abilityDescriptions[0], 
+            title: ability.name,
+            text: abilityDescriptions[0],
             icon: 'info',
             confirmButtonText: 'Close',
-            confirmButtonColor: 'Colors[types[0].type.name]',
+            confirmButtonColor: color,
         });
-    };
-
+    }
 
 
     return (
@@ -258,11 +268,11 @@ useEffect(() => {
                                 </Stack>
                         </TabPanel>
                         <TabPanel>
-                            <Heading size="lg">Evolution</Heading>
+                  
                             <Stack direction={{base: "column", md: "row"}} spacing={2}>
                                 <Stack direction="column">
-                                <Text>Evolution Chain:</Text>
-                                {featuredPokemon.evolution_chain.url}
+                                
+                                <Evolution featuredPokemon={featuredPokemon} evolution_chain={evolution_chain} evolves_from_species={evolves_from_species} />
                                 </Stack>
                                 </Stack>
                         </TabPanel>

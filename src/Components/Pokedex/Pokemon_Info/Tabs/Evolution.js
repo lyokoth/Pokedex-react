@@ -54,7 +54,7 @@ const Evolution = ({ pokemon }) => {
         // defining the attributes for the evolved pokemon
         const {sprites, name, front_default, id, data} = evolution;
       
-       
+
  
         return (
                <Card style={{border: '1px'}}>
@@ -62,19 +62,19 @@ const Evolution = ({ pokemon }) => {
                         <Flex flexDirection="row" alignItems="center">
                         {evolution.map((evolution, index) => (
                         <div key={index}>
-                             <img
-                             
-                             src={pokemon.sprites.front_default} 
-                            
-                             
+                             <Image
+                             borderRadius={10}
+                             circle={true}
+                             src={pokemon.sprites.front_default}  
                              alt={pokemon.name} />  
                             <Text 
                                 className="evo-name"
                                 key={index} 
                                 textTransform={'capitalize'}
-                                style={{ backgroundColor: Colors[evolution] }}>{pokemon.name}</Text>   
+                                style={{ backgroundColor: Colors[evolution]}}>{pokemon.name}</Text>   
                                 
-                                 <ArrowRightIcon />
+                               
+
                        </div>
                       
                     

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import FeaturedPokemonCard from './FeaturedPokemonCard';
 import PokedexContext from '../../../functions/Context'; 
-import { fetchPokemonAbility } from '../../Routing/api';
 
 const FeaturedPokemon = () => {
     const { loading, setLoading } = useContext(PokedexContext);

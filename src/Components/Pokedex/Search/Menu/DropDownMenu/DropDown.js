@@ -5,6 +5,7 @@ import GenerationFilter from "../../../GenerationFilter/GenerationFilter";
 import TypeFilter from "../../TypesFilter/TypeFilter";
 import "./DropDown.css";
 import MenuListBtn from "../MenuListBtn";
+import Types from "../../TypesFilter/Types";
 
 const DropDown = ({
     searchActive,
@@ -29,10 +30,7 @@ const DropDown = ({
             </section>
             {dropActive ? (
                 <article className='menuActive'>
-                    <TypeFilter
-                        typesFilter={typesFilter}
-                        setTypesFilter={setTypesFilter}
-                    />
+            
                     <GenerationFilter
                        
                         />
@@ -40,6 +38,13 @@ const DropDown = ({
                         setDropActive={setDropActive}
                         searchActive={searchActive}
                         setSearchActive={setSearchActive}
+                    />
+
+                    <TypeFilter
+                        typesFilter={typesFilter}
+                        setTypesFilter={setTypesFilter}
+                   
+                   
                     />
                 </article>
             ) : (

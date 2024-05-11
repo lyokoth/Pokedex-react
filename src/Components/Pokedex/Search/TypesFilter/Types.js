@@ -1,5 +1,4 @@
 import React from "react";
-import { Colors } from '../../../Routing/api';
 import { Image } from "@chakra-ui/react";
 
 import Normal from '../../../../assets/types/normal.svg';
@@ -21,94 +20,37 @@ import Dark from '../../../../assets/types/dark.svg';
 import Steel from '../../../../assets/types/steel.svg';
 import Fairy from '../../../../assets/types/fairy.svg';
 
-
-
-const Types = (types) => {
+const Types = ({ handleTypeClick }) => {
     const typeList = [
-    {
-        type: "Normal",
-        symbol: `${Normal}`,
-        
-    },
-    {
-        type: "Fire",
-        symbol:  `${Fire}`
-    },
-    {
-       type: "Water",
-       symbol: `${Water}`
-    },
-    {
-        type: "Electric",
-        symbol: `${Electric}`
-    },
-    {
-        type: "Grass",
-        symbol: `${Grass}`
-    },
-    {
-        type: "Ice",
-        symbol: `${Ice}`
-    },
-    {
-        type: "Fighting",
-        symbol: `${Fighting}`
-    },
-    {
-        type: "Poison",
-        symbol: `${Poison}`
-    },
-    {
-        type: "Ground",
-        symbol: `${Ground}`
-    },
-    {
-        type: "Flying",
-        symbol: `${Flying}`
-    },
-    {
-        type: "Psychic",
-        symbol: `${Psychic}`
-    },
-    {
-        type: "Bug",
-        symbol: `${Bug}`
-    },
-    {
-        type: "Rock",
-        symbol: `${Rock}`
-    },
-    {
-        type: "Ghost",
-        symbol: `${Ghost}`
-    },
-    {
-        type: "Dragon",
-        symbol: `${Dragon}`
-    },
-    {
-        type: "Dark",
-        symbol: `${Dark}`
-    },
-    {
-        type: "Steel",
-        symbol: `${Steel}`
-    },
-    {
-        type: "Fairy",
-        symbol: `${Fairy}`
-    }
-];
+        { type: "Normal", symbol: Normal },
+        { type: "Fire", symbol: Fire },
+        { type: "Water", symbol: Water },
+        { type: "Electric", symbol: Electric },
+        { type: "Grass", symbol: Grass },
+        { type: "Ice", symbol: Ice },
+        { type: "Fighting", symbol: Fighting },
+        { type: "Poison", symbol: Poison },
+        { type: "Ground", symbol: Ground },
+        { type: "Flying", symbol: Flying },
+        { type: "Psychic", symbol: Psychic },
+        { type: "Bug", symbol: Bug },
+        { type: "Rock", symbol: Rock },
+        { type: "Ghost", symbol: Ghost },
+        { type: "Dragon", symbol: Dragon },
+        { type: "Dark", symbol: Dark },
+        { type: "Steel", symbol: Steel },
+        { type: "Fairy", symbol: Fairy }
+    ];
 
-return (
-    <div>
-        {typeList.map((type, i) => (
-            <div key={i}>
-                <Image src={type.symbol} alt={type.type} backgroundColor={Colors.type}/>
-            </div>
-        ))}
-    </div>
-);
-        }
+    return (
+        <div>
+            {typeList.map((type, i) => (
+                <div key={i} onClick={() => handleTypeClick(type.type)}>
+                    <Image src={type.symbol} alt={type.type} />
+                </div>
+            ))}
+        </div>
+    );
+};
+
 export default Types;
-// Path: src/Components/Pokedex/Search/Types.js

@@ -33,11 +33,11 @@ const Types = ({ pokemon }) => {
     }, [pokemon.types]);
 
     return (
-        <Card w="100%" p={2} boxShadow="md" rounded="md" bg="white">
+        <Card w="100%" p={2} boxShadow="md" rounded="md" >
             <Stack spacing={2} p={2}>
                 <Heading size="md">Type Effectiveness</Heading>
                 <Divider />
-                <Text>Supereffective damage from:</Text>
+                <Text>Normal/Supereffective damage from:</Text>
                 <Stack direction="row" spacing={2}>
                     {weaknesses.map((weakness, index) => (
                         <Text 

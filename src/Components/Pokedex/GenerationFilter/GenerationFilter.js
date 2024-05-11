@@ -13,7 +13,7 @@ const GenerationFilter = () => {
         setLoading(true);
 
         try {
-            const data = await fetchPokemon(10000, 0);
+            const data = await fetchPokemon(1025, 0);
             const promises = data.results.map(async (pokemon) => {
                 return await fetch(pokemon.url).then((res) => res.json());
             });
@@ -33,7 +33,7 @@ const GenerationFilter = () => {
                 // setDropActive(false);
             }}
         >
-            <p>All Gens</p>
+            <p>All Pokemon</p>
             <span className='material-icons-outlined icons'><StarIcon /></span>
         </Button>
     );

@@ -27,6 +27,10 @@ const Biology = ({pokemon}) => {
     if (!pokemon.name) {
         return <Spinner color='purple.500' speed="0.65s" emptyColor='gray.200' size='xl' />;
     }
+
+    if (!pokemon.egg_groups.name) {
+        return <div>No Egg Group Found.</div>
+    }
   
 
 
