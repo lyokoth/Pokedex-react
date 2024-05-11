@@ -66,6 +66,20 @@ const PokeList = () => {
           setFilteredPokemon(filtered);
       }
   }, [search, allPokemon]);
+
+  // type filter 
+  useEffect(() => {
+    if (type === '') {
+        setFilteredPokemon(allPokemon);
+    } else {
+        const filteredType = allPokemon.filter((pokemon) => {
+            return pokemon.types.some((type) => type.type.name === selectedType);
+        }
+        );
+        setFilteredPokemon(filteredType);
+    }
+}, [type, allPokemon, selectedType]);
+
      
     if (loading) {
       return <Spinner
@@ -112,12 +126,93 @@ const PokeList = () => {
     setView(view === 'artwork' ? 'sprites' : 'artwork');
   };
 
+ 
+
+
   return (
     <section className='px-2 w-full mx-auto z-40 pt-4'>
-     
+     <div className="filters">
       <Checkbox onClick={handleSpriteToggle}> 
            {view === 'artwork' ? 'View Sprites' : 'View Artwork'}
              </Checkbox>
+ <Button className='type-button' onClick={() => handleTypeChange('')}
+>All</Button>
+<Button  
+className='type-button' 
+onClick={() => handleTypeChange('normal')}
+style={{backgroundColor: Colors.normal}}
+>Normal</Button>
+<Button className='type-button' 
+onClick={() => handleTypeChange('fire')}
+style={{backgroundColor: Colors.fire}}>Fire</Button>
+<Button className='type-button'
+onClick={() => handleTypeChange('water')}
+style={{backgroundColor: Colors.water}}
+>Water</Button>
+<Button className='type-button'
+onClick={() => handleTypeChange('electric')}
+style={{backgroundColor: Colors.electric}}
+>Electric</Button>
+<Button className='type-button'
+onClick={() => handleTypeChange('grass')}
+style={{backgroundColor: Colors.grass}}
+>Grass</Button>
+<Button className='type-button'
+onClick={() => handleTypeChange('ice')}
+style={{backgroundColor: Colors.ice}}
+>Ice</Button>
+<Button className='type-button' 
+onClick={() => handleTypeChange('fighting')}
+style={{backgroundColor: Colors.fighting}}
+>Fighting</Button>
+<Button className='type-button'
+onClick={() => handleTypeChange('poison')}
+style={{backgroundColor: Colors.poison}}
+>Poison</Button>
+<Button className='type-button'
+onClick={() => handleTypeChange('ground')}
+style={{backgroundColor: Colors.ground}}
+>Ground</Button>
+<Button className='type-button'
+onClick={() => handleTypeChange('flying')}
+style={{backgroundColor: Colors.flying}}
+>Flying</Button>
+<Button className='type-button'
+onClick={() => handleTypeChange('psychic')}
+style={{backgroundColor: Colors.psychic}}
+>Psychic</Button>
+<Button className='type-button'
+onClick={() => handleTypeChange('bug')}
+style={{backgroundColor: Colors.bug}}
+>Bug</Button>
+<Button className='type-button'
+onClick={() => handleTypeChange('rock')}
+style={{backgroundColor: Colors.rock}}
+>Rock</Button>
+<Button className='type-button'
+onClick={() => handleTypeChange('ghost')}
+style={{backgroundColor: Colors.ghost}}
+>Ghost</Button>
+<Button className='type-button'
+onClick={() => handleTypeChange('dragon')}
+style={{backgroundColor: Colors.dragon}}
+>Dragon</Button>
+<Button className='type-button'
+onClick={() => handleTypeChange('dark')}
+style={{backgroundColor: Colors.dark}}
+>Dark</Button>
+<Button className='type-button'
+onClick={() => handleTypeChange('steel')}
+style={{backgroundColor: Colors.steel}}
+>Steel</Button>
+<Button className='type-button'
+onClick={() => handleTypeChange('fairy')}
+style={{backgroundColor: Colors.fairy}}
+>Fairy</Button>
+
+  
+
+</div>
 
 
              <Input 
