@@ -3,12 +3,8 @@ import { useParams } from 'react-router-dom';
 import { Tab, Spinner, Card, Heading, Flex, Stack, Text, Tabs, TabList, TabPanels, TabPanel, Button} from '@chakra-ui/react';
 import './PokeCard.css';
 import { ArrowBackIcon} from '@chakra-ui/icons';
-import { ArrowForwardIcon } from '@chakra-ui/icons';
-import  PokedexContext  from '../../../functions/Context';
 import { Colors} from '../../Routing/api';
 import { Link } from 'react-router-dom';
-
-
 import  pokeballBlack from '../../../assets/icons8-pokeball-48.png';
 import About from '../Pokemon_Info/Tabs/About';
 import Stats from '../Pokemon_Info/Tabs/Stats';
@@ -24,6 +20,7 @@ import Types from '../Pokemon_Info/Tabs/Type';
 
   const [pokemon, setPokemon] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [abilityDescriptions, setAbilityDescriptions] = useState([]);
   const { id } = useParams();
 
 
@@ -37,16 +34,8 @@ import Types from '../Pokemon_Info/Tabs/Type';
         const data = await response.json();
         const speciesData = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}`);
         const species = await speciesData.json();
-        const evolutionData = await fetch(species.evolution_chain.url);
-        const evolution = await evolutionData.json();
-      
-   
-       
-
-        setPokemon({...data, ...species, ...evolution});
-      
-       
-     
+         
+        setPokemon({...data, ...species});
       } catch (error) {
         console.error('Error fetching Pokémon data:', error);
       } finally {
@@ -68,7 +57,7 @@ import Types from '../Pokemon_Info/Tabs/Type';
 
   
 
-  const { stats, types, abilities, height, weight, sprites, training, evolution_chain, effect_entries, find} = pokemon;
+  const { stats, types, abilities, height, weight, sprites} = pokemon;
 
 
 
@@ -83,16 +72,23 @@ import Types from '../Pokemon_Info/Tabs/Type';
   const jpnName = pokemon.names.find((name) => name.language.name === 'ja').name;
   
  
-      
-  const handleAbilityClick = (ability) => {
+
+  const handleAbilityClick = async (e) => {
+    const abilityName = e.target.innerText;
+    const abilityData = await fetch(`https://pokeapi.co/api/v2/ability/${abilityName}`);
+    const ability = await abilityData.json();
+    const description = ability.effect_entries.find((entry) => entry.language.name === 'en').short_effect;
     Swal.fire({
-        title: 'Ability',
-        text: 'Description: ' + ability.ability.name + ' - ' + ability.effect_entries[0].effect,
-        icon: 'info',
-        confirmButtonText: 'Close',
-        confirmButtonColor: 'Colors[types[0].type.name]',
+      title: abilityName,
+      text: description,
+      icon: 'info',
+      confirmButtonText: 'Close',
+      confirmButtonColor: Colors[types[0].type.name],
+
     });
-};
+  }
+
+
 
 
 
@@ -184,10 +180,6 @@ import Types from '../Pokemon_Info/Tabs/Type';
                     </div>
             
                     </div>
-
-                  
-            
-       
             
             </div>
             </div>
@@ -196,11 +188,7 @@ import Types from '../Pokemon_Info/Tabs/Type';
                 <Heading size="md">Pokédex Entries:</Heading>
                 <Stack direction={{base: "row", md: "row"}} spacing={4}>
                 
-                        <Text>{pokemon.flavor_text_entries[0].flavor_text}</Text>
-                        
-
-               
-                
+                <Text>{pokemon.flavor_text_entries[0].flavor_text}</Text>
                 </Stack>
                 </Card>
             
@@ -214,7 +202,6 @@ import Types from '../Pokemon_Info/Tabs/Type';
                   <Tab>Sprites</Tab>
                   <Tab>Forms</Tab>
                   <Tab>Type Chart</Tab>
-
               </TabList>
               <TabPanels>
                   <TabPanel>
@@ -224,36 +211,22 @@ import Types from '../Pokemon_Info/Tabs/Type';
                      <Stats stats={stats} />
                   </TabPanel>
                   <TabPanel>
-                     
-        
           <Heading size="md">Evolution Chain</Heading>
                  <Evolution pokemon={pokemon} /> 
-            
-
                   </TabPanel>
                   <TabPanel>
                       <Moves pokemon={pokemon} />
                     {/* <Location pokemon={pokemon} /> */}
-
-                
                   </TabPanel>
                   <TabPanel>
                     <Heading>Sprites:</Heading>
-
                     <img src={sprites.front_default} alt={pokemon.name} />
                     <img src={sprites.back_default} alt={pokemon.name} />
                     <img src={sprites.front_shiny} alt={pokemon.name} />
                     <img src={sprites.back_shiny} alt={pokemon.name} />
-                  
                   </TabPanel>
-       
-               
                   <TabPanel>
                       <Heading>Forms:</Heading>
-                  
-                  
-
-                    
                       </TabPanel>
                   <TabPanel>
                    
