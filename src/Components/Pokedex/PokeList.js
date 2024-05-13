@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Grid, Flex, GridItem,  Text, Spinner, Button, Checkbox, Input } from '@chakra-ui/react';
+import { Grid, Flex, GridItem,  Text, Spinner, Button, Checkbox, Input, Select } from '@chakra-ui/react';
+
 import { Colors } from '../../Components/Routing/api';
 import './PokeList.css';
 import pokeball from '../../assets/pokeball-black.jpg';
@@ -11,6 +12,7 @@ import ScrollToTop from 'react-scroll-to-top';
 import {Switch}  from '@chakra-ui/react';
 // add sidebar for generation filter
 import RandomPokeList from './RandomPokeList';
+import { ColorizeTwoTone } from '@mui/icons-material';
 
 const PokeList = () => {
   const [pokemon, setPokemon] = useState([]); 
@@ -39,7 +41,7 @@ const PokeList = () => {
       const fetchKantoPokemon = async () => {
         setLoading(true);
         try {
-          const data = await fetchPokemon(151, 0); // Fetch Kanto Pokemon
+          const data = await fetchPokemon(1025, 0); // Fetch Kanto Pokemon
           const promises = data.results.map(async (pokemon) => {
             return await fetch(pokemon.url).then((res) => res.json());
           });
@@ -132,92 +134,37 @@ const PokeList = () => {
   return (
     <section className='px-2 w-full mx-auto z-40 pt-4'>
      <div className="filters">
-      <Checkbox onClick={handleSpriteToggle}> 
-           {view === 'artwork' ? 'View Sprites' : 'View Artwork'}
-             </Checkbox>
- <Button className='type-button' onClick={() => handleTypeChange('')}
->All</Button>
-<Button  
-className='type-button' 
-onClick={() => handleTypeChange('normal')}
-style={{backgroundColor: Colors.normal}}
->Normal</Button>
-<Button className='type-button' 
-onClick={() => handleTypeChange('fire')}
-style={{backgroundColor: Colors.fire}}>Fire</Button>
-<Button className='type-button'
-onClick={() => handleTypeChange('water')}
-style={{backgroundColor: Colors.water}}
->Water</Button>
-<Button className='type-button'
-onClick={() => handleTypeChange('electric')}
-style={{backgroundColor: Colors.electric}}
->Electric</Button>
-<Button className='type-button'
-onClick={() => handleTypeChange('grass')}
-style={{backgroundColor: Colors.grass}}
->Grass</Button>
-<Button className='type-button'
-onClick={() => handleTypeChange('ice')}
-style={{backgroundColor: Colors.ice}}
->Ice</Button>
-<Button className='type-button' 
-onClick={() => handleTypeChange('fighting')}
-style={{backgroundColor: Colors.fighting}}
->Fighting</Button>
-<Button className='type-button'
-onClick={() => handleTypeChange('poison')}
-style={{backgroundColor: Colors.poison}}
->Poison</Button>
-<Button className='type-button'
-onClick={() => handleTypeChange('ground')}
-style={{backgroundColor: Colors.ground}}
->Ground</Button>
-<Button className='type-button'
-onClick={() => handleTypeChange('flying')}
-style={{backgroundColor: Colors.flying}}
->Flying</Button>
-<Button className='type-button'
-onClick={() => handleTypeChange('psychic')}
-style={{backgroundColor: Colors.psychic}}
->Psychic</Button>
-<Button className='type-button'
-onClick={() => handleTypeChange('bug')}
-style={{backgroundColor: Colors.bug}}
->Bug</Button>
-<Button className='type-button'
-onClick={() => handleTypeChange('rock')}
-style={{backgroundColor: Colors.rock}}
->Rock</Button>
-<Button className='type-button'
-onClick={() => handleTypeChange('ghost')}
-style={{backgroundColor: Colors.ghost}}
->Ghost</Button>
-<Button className='type-button'
-onClick={() => handleTypeChange('dragon')}
-style={{backgroundColor: Colors.dragon}}
->Dragon</Button>
-<Button className='type-button'
-onClick={() => handleTypeChange('dark')}
-style={{backgroundColor: Colors.dark}}
->Dark</Button>
-<Button className='type-button'
-onClick={() => handleTypeChange('steel')}
-style={{backgroundColor: Colors.steel}}
->Steel</Button>
-<Button className='type-button'
-onClick={() => handleTypeChange('fairy')}
-style={{backgroundColor: Colors.fairy}}
->Fairy</Button>
+      <Button onClick={handleSpriteToggle} className="sprite-toggle" colorScheme="purple" size="sm" variant="outline">Toggle View</Button>
+<Select placeholder="Search by Type"
+style={{width: '60%', margin: '10px 0'}}
+ onChange={(e) => handleTypeChange(e.target.value)}>
+<option value="">All Types</option>
+<option value="normal" style={{backgroundColor: Colors.normal}}>Normal</option>
+<option value="fire" style={{backgroundColor: Colors.fire}}>Fire</option>
+<option value="water" style={{backgroundColor: Colors.water}}>Water</option>
+<option value="electric" style={{backgroundColor: Colors.electric}}>Electric</option>
+<option value="grass" style={{backgroundColor: Colors.grass}}>Grass</option>
+<option value="ice" style={{backgroundColor: Colors.ice}}>Ice</option>
+<option value="fighting" style={{backgroundColor: Colors.fighting}}>Fighting</option>
+<option value="poison" style={{backgroundColor: Colors.poison}}>Poison</option>
+<option value="ground" style={{backgroundColor: Colors.ground}}>Ground</option>
+<option value="flying" style={{backgroundColor: Colors.flying}}>Flying</option>
+<option value="psychic" style={{backgroundColor: Colors.psychic}}>Psychic</option>
+<option value="bug" style={{backgroundColor: Colors.bug}}>Bug</option>
+<option value="rock" style={{backgroundColor: Colors.rock}}>Rock</option>
+<option value="ghost" style={{backgroundColor: Colors.ghost}}>Ghost</option>  
+<option value="dragon" style={{backgroundColor: Colors.dragon}}>Dragon</option>
+<option value="dark" style={{backgroundColor: Colors.dark}}>Dark</option>
+<option value="steel" style={{backgroundColor: Colors.steel}}>Steel</option>
+<option value="fairy" style={{backgroundColor: Colors.fairy}}>Fairy</option>
+</Select> 
 
-  
 
-</div>
 
 
              <Input 
              type="text"
-             placeholder="Search by Pokemon or ID"
+             placeholder="Search by Name or ID"
              value={search}
              style={{width: '90%', margin: '10px 0'}}
               onChange={handleSearchChange}
@@ -225,12 +172,12 @@ style={{backgroundColor: Colors.fairy}}
              
               />
       
-
-   
+</div>
+   <div className='px-2 w-full mx-auto z-40 pt-4'>
       <div style={{ textTransform: 'capitalize' }}> 
     
         {filteredPokemon.length  > 0 && (
-          <Grid templateColumns="repeat(4, 1fr)" gap={4} className="pokemon-grid-card">
+          <Grid templateColumns="repeat(4, 1fr)" gap={4} className='grid grid-cols-2 justify-items-center gap-x-2 md:gap-x-4 md:gap-y-5 gap-y-2 md:w-11/12 w-full mx-auto pb-10 z-10'>
             {filteredPokemon
             .filter(pokemon => selectedType ? pokemon.types.some(type => type.type.name === selectedType) : true)
               .map((pokemon, index) => (
@@ -275,6 +222,7 @@ style={{backgroundColor: Colors.fairy}}
           </Grid>
         )}
       </div>
+    </div>
       <ScrollToTop smooth color={'inherit'} />  
     </section>
   );
