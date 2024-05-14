@@ -1,5 +1,5 @@
 import './App.css';
-import Nav from './Components/Navbar/Nav';
+//import Nav from './Components/Navbar/Nav';
 import { About } from './pages/About/About.jsx'; // for single pokemon page routing
 import Pokedex from './Components/Pokedex/Pokedex.js';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -11,7 +11,7 @@ import Settings from './pages/Settings/Settings.js';
 import PokemonSearch from './Components/Pokedex/Search/PokemonSearch.js';
 import Login from './pages/Accounts/Login.js';
 import ComingSoon from './pages/Soon/ComingSoon.js';
-
+import Toggler from './Components/Navbar/Toggler/Toggler.js';
 //Coming soon pages 
 // import RegistrationForm from './pages/Accounts/RegistrationForm.jsx';
 // import Types from './pages/Types/Types.js';
@@ -29,7 +29,7 @@ function App() {
   return (
  <div className="App">
      <Router>
-      <Nav />
+     <Toggler />
        <Routes>
         <Route path= "/pokedex" element={<PokemonSearch/>} />
         <Route path= "/" element={<>
