@@ -84,7 +84,7 @@ useEffect(() => {
     
     const handleAbilityClick = (ability) => {
         Swal.fire({
-            title: ability.name,
+            title:  featuredPokemon.abilities[0].ability.name,
             text: abilityDescriptions[0],
             icon: 'info',
             confirmButtonText: 'Close',
