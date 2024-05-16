@@ -1,11 +1,11 @@
 .featured-pokemon-container {
-
+   
     width: 100%;
     
 }
 
 .card-header {
-   
+
  
     font-size: 1.5rem;
     font-weight: 600;
@@ -18,7 +18,7 @@
     border:rgba(0, 0, 0, 0.1) solid;
 }
 .card-body {
-    display: flex;
+  
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -258,3 +258,17 @@
     border:rgba(0, 0, 0, 0.1) solid;
     
 } 
+
+@media  (max-width: 800px) {
+    .card-body {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 1rem;
+        border-radius: 5px;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    
+}

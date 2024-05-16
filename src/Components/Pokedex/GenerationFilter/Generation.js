@@ -15,6 +15,7 @@ import GenCard from './GenCard';
 
 
 const Generation = ({ searchGeneration}) => {
+    
 
 
     const Regions = [

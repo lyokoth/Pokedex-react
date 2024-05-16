@@ -9,13 +9,14 @@ import PokedexContext  from '../../functions/Context';
 import { fetchPokemon } from '../../Components/Routing/api';
 import ScrollToTop from 'react-scroll-to-top';
 //import SearchBar from './Search/SearchForm.js';
-import {Switch}  from '@chakra-ui/react';
+
 // add sidebar for generation filter
-import RandomPokeList from './RandomPokeList';
-import { ColorizeTwoTone } from '@mui/icons-material';
+
+
 
 const PokeList = () => {
   const [pokemon, setPokemon] = useState([]); 
+
   const [search, setSearch] = useState('');
   const [ selectedType, setSelectedType ] = useState('');
   const [selectedPokemon, setSelectedPokemon] = useState(false);
@@ -41,7 +42,7 @@ const PokeList = () => {
       const fetchKantoPokemon = async () => {
         setLoading(true);
         try {
-          const data = await fetchPokemon(1025, 0); // Fetch Kanto Pokemon
+          const data = await fetchPokemon(151, 0); // Fetch Kanto Pokemon
           const promises = data.results.map(async (pokemon) => {
             return await fetch(pokemon.url).then((res) => res.json());
           });
@@ -132,7 +133,7 @@ const PokeList = () => {
 
 
   return (
-    <section className='px-2 w-full mx-auto z-40 pt-4'>
+    <section className=''>
      <div className="filters">
       <Button onClick={handleSpriteToggle} className="sprite-toggle" colorScheme="purple" size="sm" variant="outline">Toggle View</Button>
 <Select placeholder="Search by Type"
@@ -166,6 +167,7 @@ style={{width: '60%', margin: '10px 0'}}
              type="text"
              placeholder="Search by Name or ID"
              value={search}
+             icon="search"
              style={{width: '90%', margin: '10px 0'}}
               onChange={handleSearchChange}
               className="search-bar"
@@ -173,7 +175,7 @@ style={{width: '60%', margin: '10px 0'}}
               />
       
 </div>
-   <div className='px-2 w-full mx-auto z-40 pt-4'>
+   <section className='px-2 w-full mx-auto z-40 pt-4'>
       <div style={{ textTransform: 'capitalize' }}> 
     
         {filteredPokemon.length  > 0 && (
@@ -222,7 +224,7 @@ style={{width: '60%', margin: '10px 0'}}
           </Grid>
         )}
       </div>
-    </div>
+    </section>
       <ScrollToTop smooth color={'inherit'} />  
     </section>
   );

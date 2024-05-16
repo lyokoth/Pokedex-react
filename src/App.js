@@ -12,7 +12,6 @@ import PokemonSearch from './Components/Pokedex/Search/PokemonSearch.js';
 import Login from './pages/Accounts/Login.js';
 import ComingSoon from './pages/Soon/ComingSoon.js';
 
-//Coming soon pages 
 // import RegistrationForm from './pages/Accounts/RegistrationForm.jsx';
 // import Types from './pages/Types/Types.js';
 //import PokemonAbilities from './Components/Pokedex/Pokemon_Info/Abilities/Ability.js';
@@ -29,7 +28,10 @@ function App() {
   return (
  <div className="App">
      <Router>
-      <Nav />
+
+
+    <Nav />
+
        <Routes>
         <Route path= "/pokedex" element={<PokemonSearch/>} />
         <Route path= "/" element={<>
