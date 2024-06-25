@@ -1,54 +1,39 @@
 import React from 'react';
-
-import logo from '../../assets/pokeball-white.png';
-//import { HashLink } from 'react-router-hash-link';
+import Logo from '../../assets/pokeball-white.png';
 import { Link } from 'react-router-dom';
-import {Menu, MenuButton, MenuList, MenuItem, Button, MenuOptionGroup, MenuDivider, MenuItemOption} from '@chakra-ui/react';
-import { ChevronDownIcon, SettingsIcon } from '@chakra-ui/icons';
+import { List, ListItem, Flex, Text, Image, Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/react';
+import { ChevronDownIcon } from '@chakra-ui/icons';
 import './Nav.css';
 import Toggler from './Toggler/Toggler';
 
-
-
-
-const Nav = () => {
-
+function Nav() {
     return (
         <nav className="navigation">
-            <img src={logo} alt="pokeball" className="logo" />
-            <ul className="nav">
-                <li className="link"><Link to="/">Home</Link></li>
-              
-                <li className="link"><Link to="/pokedex">Pokédex</Link></li>
-                <li className="link"><Link to="/teambuilder">Team Builder</Link></li>
-                <li className="link"><a href="/about">About</a></li>
-                <Menu>
-                    <MenuButton as={Button} rightIcon={<ChevronDownIcon />}  colorScheme="blue">
-                        Settings
-                    </MenuButton>
-                    
-                    <MenuList>
-                    <MenuOptionGroup defaultValue ='asc' title='Account'>
-                        <MenuItemOption><Link to="/registration">Register</Link></MenuItemOption>
-                        <MenuItemOption><Link to="/">Login</Link></MenuItemOption>
-                        </MenuOptionGroup>
-                        <MenuDivider />
-                    <MenuOptionGroup defaultValue='asc' title="Settings">
-                        <MenuItem icon={<SettingsIcon />}>
-                            <Link to="/settings">Settings</Link>
-                            </MenuItem>
-                       </MenuOptionGroup>
-                    </MenuList> 
-                   
-                </Menu>
-
-                <li className='toggler'><Toggler /></li>
-
-            
-         
-               
-            </ul>
+            <Image src={Logo} alt="Pokeball" className="logo" />
+            <List className="nav">
+                <ListItem>
+                    <Link to="/" className="nav-link">Home</Link>
+                </ListItem>
+                <ListItem>
+                    <Link to="/pokedex" className="nav-link">Pokedex</Link>
+                </ListItem>
+                <ListItem>
+                    <Link to="/settings" className="nav-link">Settings</Link>
+                    <Menu className="menu">
+                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                            Account Settings
+                        </MenuButton>
+                        <MenuList>
+                            <MenuItem>Settings</MenuItem>
+                            <MenuItem>Profile</MenuItem>
+                            <MenuItem>Logout</MenuItem>
+                        </MenuList>
+                    </Menu>
+                </ListItem>
+            </List>
+            <Toggler />
         </nav>
-    )
+    );
 }
+
 export default Nav;
