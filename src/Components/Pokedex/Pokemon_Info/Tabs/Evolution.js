@@ -11,6 +11,7 @@ const Evolution = ({ pokemon }) => {
      const [evolution, setEvolution] = useState([]);
      const [preEvolution, setPreEvolution] = useState([]);
      const [finalEvolution, setFinalEvolution] = useState([]);
+     const [sprites, setSprites] = useState({});
 
      const navigate = useNavigate();
 
@@ -23,21 +24,38 @@ const Evolution = ({ pokemon }) => {
                     const data = res.data;
                     console.log(data);
                     const evolution = data.chain.evolves_to.map(evolution => evolution.species.name);
-                    const preEvolution = data.chain.evolves_from ? data.chain.evolves_from.species.name : evolution[0];
+                    const preEvolution = data.chain.species.name;
                     const finalEvolution = data.chain.evolves_to[0].evolves_to[0] ? data.chain.evolves_to[0].evolves_to[0].species.name : null;
                     setEvolution(evolution);
                     setFinalEvolution(finalEvolution);
+                    setPreEvolution(preEvolution);
+
+
+                    // fetch sprites 
+                    const fetchSprites = async (id) => {
+                        const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
+                        return res.data.sprites;
+                      };
               
-    
-
-                    console.log(evolution);
-                    console.log(preEvolution);
-                    console.log(finalEvolution);
-                } catch (error) {
-                    console.log(error);
-                }
-            };
-
+                      const preEvolutionSprites = await fetchSprites(preEvolution);
+                      const evolutionSprites = await Promise.all(evolution.map(e => fetchSprites(e)));
+                      const finalEvolutionSprites = finalEvolution ? await fetchSprites(finalEvolution) : null;
+              
+                      setSprites({
+                        preEvolution: preEvolutionSprites,
+                        evolution: evolutionSprites,
+                        finalEvolution: finalEvolutionSprites,
+                      });
+              
+                      console.log(evolution);
+                      console.log(preEvolution);
+                      console.log(finalEvolution);
+                    } catch (error) {
+                      console.log(error);
+                    }
+                  };
+              
+   
             fetchEvolution();
         }, [evolution_chain]);
 
@@ -52,7 +70,7 @@ const Evolution = ({ pokemon }) => {
             navigate(`/pokemon/${id}`);
         }
         // defining the attributes for the evolved pokemon
-        const {sprites, name, front_default, id, data} = evolution;
+        const { name, front_default, id, data} = evolution;
       
 
  
@@ -65,18 +83,17 @@ const Evolution = ({ pokemon }) => {
                              <Image
                              borderRadius={10}
                              circle={true}
-                             src={pokemon.sprites.front_default}  
+                             src={pokemon.sprites.front_default} 
                              alt={pokemon.name} />  
                             <Text 
                                 className="evo-name"
                                 key={index} 
                                 textTransform={'capitalize'}
-                                style={{ backgroundColor: Colors[evolution]}}>{pokemon.name}</Text>   
+                                style={{ backgroundColor: Colors[evolution]}}>{preEvolution}</Text>   
                                 
-                               
-
                        </div>
                       
+            
                     
                         ))}
                       <div>
@@ -87,7 +104,7 @@ const Evolution = ({ pokemon }) => {
                             style={{ backgroundColor: Colors[pokemon.name] }}>{evolution}</Text>
 
                         </div>
-                        < ArrowRightIcon />
+                        <ArrowRightIcon />
                         </Flex>
 
                        
