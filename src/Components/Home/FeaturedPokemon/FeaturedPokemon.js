@@ -5,11 +5,7 @@ import PokedexContext from '../../../functions/Context';
 const FeaturedPokemon = () => {
     const { loading, setLoading } = useContext(PokedexContext);
     const [featuredPokemon, setFeaturedPokemon] = useState(null);
-
-
-   
-    
-
+ 
     useEffect(() => {
         const fetchRandomPokemon = async () => {
             setLoading(true);

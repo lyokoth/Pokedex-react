@@ -1,33 +1,46 @@
 .navigation {
+    z-index: 2;
     display: flex;
-    background-color: #050505;
-    justify-content: space-between;
-    text-decoration: none;
-
-
-    padding: 1rem 2rem;
+    flex-direction: column;
+    width: 200px;
+    min-height: 100vh;
+    padding: 40px 20px 0 25px;
+    box-shadow: rgba(0, 0, 0, 0.15) 1px 1px 2px;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
+
 
 .nav {
+    flex: 1;
     display: flex;
-    justify-content: space-between;
-    list-style: none;
-    text-decoration: none;
-    padding: 2rem;
+    flex-direction: column;
+    justify-content: stretch;
 }
 
-nav .link {
-    color: white;
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    color: #000;
     text-decoration: none;
-    padding: 0 1rem;
-    font-weight: 750;
+    font-size: 1.2rem;
+    font-weight: 500;
+    transition: 0.3s;
+
 }
 
-nav .link:hover {
-    color: #f1356d;
-    text-decoration: none;
+.nav-link:hover {
+    color: #B794F4;
+   
 }
 
+.active {
+    color: #B794F4
+   
+}
 .logo {
     font-size: 1rem;
 

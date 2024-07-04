@@ -8,6 +8,12 @@
   
 }
 
+.main-content {
+  margin-left: 200px; /* Width of the sidebar */
+  padding: 20px;
+  width: calc(100% - 200px);
+}
+
 
 .App-logo {
   height: 40vmin;

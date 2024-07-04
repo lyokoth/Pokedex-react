@@ -1,34 +1,44 @@
 import React from 'react';
 import Logo from '../../assets/pokeball-white.png';
-import { Link } from 'react-router-dom';
-import { List, ListItem, Flex, Text, Image, Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/react';
-import { ChevronDownIcon } from '@chakra-ui/icons';
+import { NavLink } from 'react-router-dom';
+import { List, ListItem, Image, Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/react';
+import { ChevronDownIcon, HamburgerIcon, SettingsIcon } from '@chakra-ui/icons';
 import './Nav.css';
 import Toggler from './Toggler/Toggler';
 
 function Nav() {
+ const [isActive, setIsActive] = React.useState(false);
+    const toggleActive = () => {
+        setIsActive(!isActive);
+    };
+   
+
     return (
         <nav className="navigation">
             <Image src={Logo} alt="Pokeball" className="logo" />
+            
             <List className="nav">
+
                 <ListItem>
-                    <Link to="/" className="nav-link">Home</Link>
+                    <NavLink to="/" 
+                 
+                    className={({ isActive, isPending}) =>
+                        isPending ? "pending" : isActive ? "active" : "nav-link"
+                }
+                >Home</NavLink>
                 </ListItem>
                 <ListItem>
-                    <Link to="/pokedex" className="nav-link">Pokedex</Link>
+                    <NavLink to="/pokedex" className={({ isActive, isPending}) =>
+                        isPending ? "pending" : isActive ? "active" : "nav-link"
+                }
+                >Pokédex</NavLink>
                 </ListItem>
                 <ListItem>
-                    <Link to="/settings" className="nav-link">Settings</Link>
-                    <Menu className="menu">
-                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                            Account Settings
-                        </MenuButton>
-                        <MenuList>
-                            <MenuItem>Settings</MenuItem>
-                            <MenuItem>Profile</MenuItem>
-                            <MenuItem>Logout</MenuItem>
-                        </MenuList>
-                    </Menu>
+                    <NavLink to="/settings" className={({ isActive, isPending}) =>
+                        isPending ? "pending" : isActive ? "active" : "nav-link"
+                }
+                > <SettingsIcon />Settings</NavLink>
+                   
                 </ListItem>
             </List>
             <Toggler />

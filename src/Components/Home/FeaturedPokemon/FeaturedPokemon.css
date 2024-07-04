@@ -1,24 +1,18 @@
 .featured-pokemon-container {
-   
-    width: 100%;
-    
+    width: 100%;   
 }
 
 .card-header {
-
- 
     font-size: 1.5rem;
     font-weight: 600;
     text-transform: capitalize;
     padding: 1rem;
-
 
 }
 .card-featured {
     border:rgba(0, 0, 0, 0.1) solid;
 }
 .card-body {
-  
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -42,6 +36,19 @@
     border-radius: 5px;
     
     transition: transform 0.2s ease-in-out;
+
+}
+
+.featured-sprite {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    padding-top: 5px;
+    border-radius: 5px;
+    transition: transform 0.2s ease-in-out;
+
 
 }
 
@@ -78,6 +85,10 @@
 .pokemon-info {
     display: flex;
     align-items: left;
+}
+
+.flavor-text {
+    box-shadow: 5px solid rgba(0, 0, 0, 0.1);
 }
 
 .sprites {
@@ -259,15 +270,18 @@
     
 } 
 
-@media  (max-width: 800px) {
-    .card-body {
+@media  (max-width: 800px) and (min-width: 600px){
+    .featured-pokemon-container {
+        display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
-        text-align: center;
-        padding: 1rem;
-        border-radius: 5px;
-        transition: transform 0.2s ease-in-out;
+        justify-content: center;
+        top: 0;
+    }
+
+    .flavor-text {
+        display: flex;
+        margin-right: 3rem;
     }
 
     

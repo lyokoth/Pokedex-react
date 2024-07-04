@@ -120,7 +120,7 @@ useEffect(() => {
                 <Flex align="center">
                 <div className="pokemon-sprites">
                     <a href={`/pokemon/${featuredPokemon.id}`}>
-                    <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${featuredPokemon.id}.png`} alt={featuredPokemon.name}
+                    <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${featuredPokemon.id}.png`} alt={featuredPokemon.name} className="featured-sprite"
                     />
                    </a>
                 </div>
@@ -172,7 +172,7 @@ useEffect(() => {
                 </div>
                
                 <Card className="flavor-text">
-                <Text>Pokédex Entry: {featuredPokemon.flavor_text_entries[0].flavor_text}</Text>
+                <Text> {featuredPokemon.flavor_text_entries[0].flavor_text}</Text>
             </Card>
         
                 

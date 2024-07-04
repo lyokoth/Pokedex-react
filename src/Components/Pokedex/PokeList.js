@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import PokedexContext from '../../functions/Context';
 import { fetchPokemon } from '../../Components/Routing/api';
 import ScrollToTop from 'react-scroll-to-top';
-import { OptionsBar } from '../BaseComponents';
+import  {OptionsBar}  from '../BaseComponents';
 
 const PokeList = () => {
   const [pokemon, setPokemon] = useState([]);
